@@ -31,14 +31,19 @@ public class UsuarioController {
     @PostMapping("/login")
     public ResponseEntity<Boolean> login(@PathVariable String email, @PathVariable String senha ) {
         boolean login = usuarioService.Login(email, senha);
-        return ResponseEntity.status(HttpStatus.OK).body(login);
+        if (login == true) {
+            return ResponseEntity.status(HttpStatus.OK).body(login);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(login);
+        }
     }
 
     @PostMapping("/{id}")
     public ResponseEntity<UsuarioModel> delete(@PathVariable Long id) {
          UsuarioModel usuario = usuarioService.delete(id);
-         return ResponseEntity.status(HttpStatus.OK).body(usuario);
+         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(usuario);
     }
+
     @GetMapping("/listausuarios")
     public ResponseEntity<List<UsuarioModel>> listarUsuarios () {
         List<UsuarioModel> usuarios = usuarioService.getAll();
