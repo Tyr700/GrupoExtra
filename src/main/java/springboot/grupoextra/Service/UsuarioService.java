@@ -53,12 +53,13 @@ public class UsuarioService {
         
     }
 
-    public void delete (Long id) {
+    public UsuarioModel delete (Long id) {
         UsuarioModel usuario = usuarioRepository.findById(id).orElse(null);
         if (usuario == null) {
             throw new IllegalArgumentException("Usuário não encontrado");
         }
         usuarioRepository.deleteById(id);
+        return null;
     }
     
 }
