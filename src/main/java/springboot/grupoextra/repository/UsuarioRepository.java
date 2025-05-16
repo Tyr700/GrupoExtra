@@ -8,5 +8,5 @@ import springboot.grupoextra.model.UsuarioModel;
 
 @Repository
 public interface UsuarioRepository extends JpaRepository<UsuarioModel, Long>{
-    
+    UsuarioModel findByEmail(String email);
 }

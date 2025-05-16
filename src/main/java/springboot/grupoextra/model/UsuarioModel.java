@@ -23,16 +23,17 @@ public class UsuarioModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "nome_usuario", nullable = false)
+    @Column(name = "nome_usuario")
     private String nome;
 
-    @Column(name = "email_usuario", unique = true, nullable = false)
+    @Column(name = "email_usuario", unique = true)
     private String email;
 
-    @Column(name = "senha_usuario", nullable = false)
+    @Column(name = "senha_usuario", unique = true)
     private String senha;
 
     @CreationTimestamp
+    @Column(name = "data_de_criacao")
     private LocalDateTime dataCriacao;
     
     

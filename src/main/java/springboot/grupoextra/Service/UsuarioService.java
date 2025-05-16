@@ -43,5 +43,22 @@ public class UsuarioService {
     public List<UsuarioModel> getAll() {
         return usuarioRepository.findAll();
     }
+
+    public boolean Login(String email, String senha) {
+        UsuarioModel usuario = usuarioRepository.findByEmail(email);
+        if (usuario == null) {
+            throw new  IllegalAccessError ("Usuário não encontrado");
+        }
+        return BCrypt.checkpw(senha, usuario.getSenha());
+        
+    }
+
+    public void delete (Long id) {
+        UsuarioModel usuario = usuarioRepository.findById(id).orElse(null);
+        if (usuario == null) {
+            throw new IllegalArgumentException("Usuário não encontrado");
+        }
+        usuarioRepository.deleteById(id);
+    }
     
 }
