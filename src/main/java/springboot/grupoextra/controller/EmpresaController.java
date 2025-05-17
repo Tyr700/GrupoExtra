@@ -16,21 +16,21 @@ import springboot.grupoextra.Service.EmpresaService;
 import springboot.grupoextra.model.EmpresaModel;
 
 @RestController
-@RequestMapping("/usuario")
+@RequestMapping("/empresa")
 public class EmpresaController {
     
     @Autowired
-    private EmpresaService usuarioService;
+    private EmpresaService empresaService;
 
     @PostMapping("/cadastro")
-    public ResponseEntity<EmpresaModel> cadastro(@RequestBody EmpresaModel usuario) {
-        usuario =  usuarioService.criarUsuario(usuario);
-        return ResponseEntity.status(HttpStatus.CREATED).body(usuario);
+    public ResponseEntity<EmpresaModel> cadastro(@RequestBody EmpresaModel empresa) {
+        empresa =  empresaService.criarEmpresa(empresa);
+        return ResponseEntity.status(HttpStatus.CREATED).body(empresa);
     }
 
     @PostMapping("/login")
     public ResponseEntity<Boolean> login(@PathVariable String email, @PathVariable String senha ) {
-        boolean login = usuarioService.Login(email, senha);
+        boolean login = empresaService.Login(email, senha);
         if (login == true) {
             return ResponseEntity.status(HttpStatus.OK).body(login);
         } else {
@@ -40,13 +40,13 @@ public class EmpresaController {
 
     @PostMapping("/{id}")
     public ResponseEntity<EmpresaModel> delete(@PathVariable Long id) {
-         EmpresaModel usuario = usuarioService.delete(id);
-         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(usuario);
+         EmpresaModel empresa = empresaService.delete(id);
+         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(empresa);
     }
 
     @GetMapping("/listausuarios")
     public ResponseEntity<List<EmpresaModel>> listarUsuarios () {
-        List<EmpresaModel> usuarios = usuarioService.getAll();
-        return ResponseEntity.status(HttpStatus.OK).body(usuarios);
+        List<EmpresaModel> empresa = empresaService.getAll();
+        return ResponseEntity.status(HttpStatus.OK).body(empresa);
     }
 }
