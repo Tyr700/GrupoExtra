@@ -12,18 +12,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import springboot.grupoextra.Service.UsuarioService;
-import springboot.grupoextra.model.UsuarioModel;
+import springboot.grupoextra.Service.EmpresaService;
+import springboot.grupoextra.model.EmpresaModel;
 
 @RestController
 @RequestMapping("/usuario")
-public class UsuarioController {
+public class EmpresaController {
     
     @Autowired
-    private UsuarioService usuarioService;
+    private EmpresaService usuarioService;
 
     @PostMapping("/cadastro")
-    public ResponseEntity<UsuarioModel> cadastro(@RequestBody UsuarioModel usuario) {
+    public ResponseEntity<EmpresaModel> cadastro(@RequestBody EmpresaModel usuario) {
         usuario =  usuarioService.criarUsuario(usuario);
         return ResponseEntity.status(HttpStatus.CREATED).body(usuario);
     }
@@ -39,14 +39,14 @@ public class UsuarioController {
     }
 
     @PostMapping("/{id}")
-    public ResponseEntity<UsuarioModel> delete(@PathVariable Long id) {
-         UsuarioModel usuario = usuarioService.delete(id);
+    public ResponseEntity<EmpresaModel> delete(@PathVariable Long id) {
+         EmpresaModel usuario = usuarioService.delete(id);
          return ResponseEntity.status(HttpStatus.NO_CONTENT).body(usuario);
     }
 
     @GetMapping("/listausuarios")
-    public ResponseEntity<List<UsuarioModel>> listarUsuarios () {
-        List<UsuarioModel> usuarios = usuarioService.getAll();
+    public ResponseEntity<List<EmpresaModel>> listarUsuarios () {
+        List<EmpresaModel> usuarios = usuarioService.getAll();
         return ResponseEntity.status(HttpStatus.OK).body(usuarios);
     }
 }
