@@ -12,25 +12,25 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import springboot.grupoextra.Service.EmpresaService;
-import springboot.grupoextra.model.EmpresaModel;
+import springboot.grupoextra.Service.UsuarioService;
+import springboot.grupoextra.model.UsuarioModel;
 
 @RestController
-@RequestMapping("/empresa")
-public class EmpresaController {
+@RequestMapping("/usuario")
+public class UsuarioController {
     
     @Autowired
-    private EmpresaService empresaService;
+    private UsuarioService usuarioService;
 
     @PostMapping("/cadastro")
-    public ResponseEntity<EmpresaModel> cadastro(@RequestBody EmpresaModel empresa) {
-        empresa =  empresaService.criarEmpresa(empresa);
-        return ResponseEntity.status(HttpStatus.CREATED).body(empresa);
+    public ResponseEntity<UsuarioModel> cadastro(@RequestBody UsuarioModel usuario) {
+        usuario =  usuarioService.criarUsuario(usuario);
+        return ResponseEntity.status(HttpStatus.CREATED).body(usuario);
     }
 
     @PostMapping("/login")
     public ResponseEntity<Boolean> login(@PathVariable String email, @PathVariable String senha ) {
-        boolean login = empresaService.Login(email, senha);
+        boolean login = usuarioService.Login(email, senha);
         if (login == true) {
             return ResponseEntity.status(HttpStatus.OK).body(login);
         } else {
@@ -39,14 +39,14 @@ public class EmpresaController {
     }
 
     @PostMapping("/{id}")
-    public ResponseEntity<EmpresaModel> delete(@PathVariable Long id) {
-         EmpresaModel empresa = empresaService.delete(id);
-         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(empresa);
+    public ResponseEntity<UsuarioModel> delete(@PathVariable Long id) {
+         UsuarioModel usuario = usuarioService.delete(id);
+         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(usuario);
     }
 
     @GetMapping("/listausuarios")
-    public ResponseEntity<List<EmpresaModel>> listarUsuarios () {
-        List<EmpresaModel> empresa = empresaService.getAll();
-        return ResponseEntity.status(HttpStatus.OK).body(empresa);
+    public ResponseEntity<List<UsuarioModel>> listarUsuarios () {
+        List<UsuarioModel> usuario = usuarioService.getAll();
+        return ResponseEntity.status(HttpStatus.OK).body(usuario);
     }
 }

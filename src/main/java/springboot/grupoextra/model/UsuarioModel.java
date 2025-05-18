@@ -14,38 +14,41 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "distribuidora")
-@Getter
+@Table(name = "usuario")
 @Setter
-public class DistribuidoraModel {
+@Getter
+public class UsuarioModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "nome_distribuidora")
+    @Column(name = "nome_usuario")
     private String nome;
 
-    @Column(name = "email_distribuidora", unique = true)
+    @Column(name = "email_usuario", unique = true)
     private String email;
 
-    @Column(name = "senha_distribuidora", unique = true)
+    @Column(name = "senha_usuario", unique = true)
     private String senha;
 
     @CreationTimestamp
     @Column(name = "data_de_criacao")
     private LocalDateTime dataCriacao;
 
-    @Column(name = "telefone_distribuidora")
+    @Column(name = "telefone_usuario")
     private String telefone;
 
-    @Column(name = "endereco_distribuidora")
+    @Column(name = "endereco_usuario")
     private String endereco;
 
-    public DistribuidoraModel() {
+    
+    
+    
+    public UsuarioModel() {
     }
 
-    public DistribuidoraModel(String nome, String email, String senha, String telefone, String endereco, LocalDateTime dataCriacao ) {
+    public UsuarioModel(String nome, String email, String senha, String telefone, String endereco) {
         this.nome = nome;
         this.email = email;
         this.senha = senha;
@@ -53,6 +56,6 @@ public class DistribuidoraModel {
         this.telefone = telefone;
         this.endereco = endereco;
     }
-
+    
     
 }

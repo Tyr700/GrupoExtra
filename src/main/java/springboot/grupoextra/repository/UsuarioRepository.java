@@ -3,10 +3,10 @@ package springboot.grupoextra.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import springboot.grupoextra.model.EmpresaModel;
+import springboot.grupoextra.model.UsuarioModel;
 
 
 @Repository
-public interface EmpresaRepository extends JpaRepository<EmpresaModel, Long>{
-    EmpresaModel findByEmail(String email);
+public interface UsuarioRepository extends JpaRepository<UsuarioModel, Long>{
+    UsuarioModel findByEmail(String email);
 }   
