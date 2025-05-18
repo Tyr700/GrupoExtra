@@ -41,18 +41,84 @@ public class EmpresaModel {
 
     @Column(name = "endereco_empresa")
     private String endereco;
+
+    @Column(name = "motivo_busca_produto")
+    private String motivoBuscaProduto;
+
+    @Column(name = "produto_ou_servico_anterior")
+    private String produtoOuServicoAnterior;
+
+    @Column(name = "frequencia_compras")
+    private String frequenciaCompras;
+
+    @Column(name = "ticket_medio")
+    private String ticketMedio;
+
+    @Column(name = "preferencia_pagamento")
+    private String preferenciaPagamento;
+
+    @Column(name = "como_conheceu_empresa")
+    private String comoConheceuEmpresa;
+
+    @Column(name = "experiencia_compra")
+    private String experienciaCompra;
+
+    @Column(name = "ponto_positivo")
+    private String pontoPositivo;
+
+    @Column(name = "teve_problema_compra")
+    private String teveProblemaCompra;
+
+    @Column(name = "indicaria_empresa_por_que")
+    private String indicariaEmpresaPorQue;
+
+    @Column(name = "expectativa_produto")
+    private String expectativaProduto;
+
+    @Column(name = "sente_falta_na_loja")
+    private String senteFaltaNaLoja;
+
+    @Column(name = "prioridade_preco_qualidade_atendimento")
+    private String prioridadePrecoQualidadeAtendimento;
+
+    @Column(name = "tipo_calcado_procurado")
+    private String tipoCalcadoProcurado;
+
+    @Column(name = "canal_comunicacao_preferido")
+    private String canalComunicacaoPreferido;
+
+    @Column(name = "frequencia_receber_promocoes")
+    private String frequenciaReceberPromocoes;
+
+    @Column(name = "participa_programa_fidelidade")
+    private String participaProgramaFidelidade;
+
+    @Column(name = "interesse_pesquisas_satisfacao")
+    private String interessePesquisasSatisfacao;
     
     
     public EmpresaModel() {
     }
 
-    public EmpresaModel(String nome, String email, String senha, String telefone, String endereco) {
+    public EmpresaModel(String nome, String email, String senha, String telefone, String endereco, String motivoBuscaProduto, String produtoOuServicoAnterior, String frequenciaCompras, String ticketMedio, String preferenciaPagamento, String comoConheceuEmpresa, String experienciaCompra, String pontoPositivo, String teveProblemaCompra, String indicariaEmpresaPorQue, String expectativaProduto, String senteFaltaNaLoja, String prioridadePrecoQualidadeAtendimento, String tipoCalcadoProcurado, String canalComunicacaoPreferido, String frequenciaReceberPromocoes, String participaProgramaFidelidade, String interessePesquisasSatisfacao) {
         this.nome = nome;
         this.email = email;
         this.senha = senha;
         this.dataCriacao = LocalDateTime.now();
         this.telefone = telefone;
         this.endereco = endereco;
+        this.motivoBuscaProduto = motivoBuscaProduto;
+        this.produtoOuServicoAnterior = produtoOuServicoAnterior;
+        this.frequenciaCompras = frequenciaCompras;
+        this.ticketMedio = ticketMedio;
+        this.preferenciaPagamento = preferenciaPagamento;
+        this.comoConheceuEmpresa = comoConheceuEmpresa;
+        this.experienciaCompra = experienciaCompra;
+        this.pontoPositivo = pontoPositivo;
+        this.teveProblemaCompra = teveProblemaCompra;
+        this.indicariaEmpresaPorQue = indicariaEmpresaPorQue;
+        this.expectativaProduto = expectativaProduto;
+        this.senteFaltaNaLoja = senteFaltaNaLoja;
     }
     
     
