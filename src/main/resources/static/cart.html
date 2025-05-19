@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrinho - Lily Shoes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f5f0e6; /* Bege claro */
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 30px 0;
+        }
+
+        .header h1 {
+            color: #f8c9d2; /* Rosa claro */
+            font-size: 32px;
+        }
+
+        .cart-items {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #f8c9d2;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item span {
+            color: #6b5e4a; /* Bege escuro */
+            font-size: 16px;
+        }
+
+        .cart-item input {
+            width: 60px;
+            padding: 5px;
+            border: 1px solid #f8c9d2;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .cart-item button {
+            background-color: #d9534f;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .cart-item button:hover {
+            background-color: #c9302c;
+        }
+
+        .cart-total {
+            text-align: right;
+            padding: 20px;
+            font-size: 18px;
+            color: #f8a8b9; /* Rosa médio */
+            font-weight: 700;
+        }
+
+        .checkout-section {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .checkout-section h2 {
+            color: #f8c9d2;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #6b5e4a;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #f8c9d2;
+            border-radius: 8px;
+            font-size: 14px;
+            background-color: #f9f5f0;
+            color: #6b5e4a;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #f8a8b9;
+        }
+
+        .error {
+            color: #d9534f;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        button[type="submit"],
+        .back-button button {
+            width: 100%;
+            padding: 12px;
+            background-color: #f8c9d2;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button[type="submit"]:hover,
+        .back-button button:hover {
+            background-color: #f8a8b9;
+        }
+
+        .back-button {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .cart-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .cart-total {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Carrinho de Compras - Lily Shoes</h1>
+        </div>
+
+        <div class="cart-items" id="cartItems">
+            <!-- Itens do carrinho serão inseridos aqui pelo JavaScript -->
+        </div>
+
+        <div class="cart-total" id="cartTotal">
+            Total: R$ 0,00
+        </div>
+
+        <div class="checkout-section">
+            <h2>Finalizar Compra</h2>
+            <form id="checkoutForm" onsubmit="handleCheckout(event)">
+                <div class="form-group">
+                    <label for="nome">Nome Completo</label>
+                    <input type="text" id="nome" name="nome" required>
+                    <div class="error" id="nomeError">Por favor, insira um nome válido.</div>
+                </div>
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" name="email" required>
+                    <div class="error" id="emailError">Por favor, insira um e-mail válido.</div>
+                </div>
+                <div class="form-group">
+                    <label for="endereco">Endereço de Entrega</label>
+                    <input type="text" id="endereco" name="endereco" required>
+                    <div class="error" id="enderecoError">Por favor, insira um endereço válido.</div>
+                </div>
+                <div class="form-group">
+                    <label for="pagamento">Método de Pagamento</label>
+                    <select id="pagamento" name="pagamento" required>
+                        <option value="">Selecione</option>
+                        <option value="cartao_credito">Cartão de Crédito</option>
+                        <option value="pix">PIX</option>
+                        <option value="boleto">Boleto</option>
+                    </select>
+                </div>
+                <button type="submit">Finalizar Compra</button>
+            </form>
+        </div>
+
+        <div class="back-button">
+            <a href="home.html"><button>Voltar à Loja</button></a>
+        </div>
+    </div>
+
+    <script>
+        // Função para carregar itens do carrinho
+        function loadCart() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const cartItems = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+            cartItems.innerHTML = '';
+
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p style="color: #6b5e4a; text-align: center;">Seu carrinho está vazio.</p>';
+                cartTotal.textContent = 'Total: R$ 0,00';
+                return;
+            }
+
+            let total = 0;
+            cart.forEach((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+
+                const cartItem = document.createElement('div');
+                cartItem.className = 'cart-item';
+                cartItem.innerHTML = `
+                    <span>${item.name} - R$ ${item.price.toFixed(2)} x </span>
+                    <input type="number" value="${item.quantity}" min="1" onchange="updateQuantity(${index}, this.value)">
+                    <span>R$ ${itemTotal.toFixed(2)}</span>
+                    <button onclick="removeItem(${index})">Remover</button>
+                `;
+                cartItems.appendChild(cartItem);
+            });
+
+            cartTotal.textContent = `Total: R$ ${total.toFixed(2)}`;
+        }
+
+        // Função para atualizar quantidade
+        function updateQuantity(index, quantity) {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart[index].quantity = parseInt(quantity) || 1;
+            localStorage.setItem('cart', JSON.stringify(cart));
+            loadCart();
+        }
+
+        // Função para remover item
+        function removeItem(index) {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart.splice(index, 1);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            loadCart();
+        }
+
+        // Função para gerar código de pedido único
+        function generateOrderCode() {
+            return 'LS' + Date.now().toString(36) + Math.random().toString(36).substr(2, 5).toUpperCase();
+        }
+
+        // Função para validar e finalizar compra
+        function handleCheckout(event) {
+            event.preventDefault();
+            let isValid = true;
+
+            // Resetar mensagens de erro
+            document.querySelectorAll('.error').forEach(error => error.style.display = 'none');
+
+            // Validação do nome
+            const nome = document.getElementById('nome').value;
+            if (nome.length < 2) {
+                document.getElementById('nomeError').style.display = 'block';
+                isValid = false;
+            }
+
+            // Validação do e-mail
+            const email = document.getElementById('email').value;
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                document.getElementById('emailError').style.display = 'block';
+                isValid = false;
+            }
+
+            // Validação do endereço
+            const endereco = document.getElementById('endereco').value;
+            if (endereco.length < 5) {
+                document.getElementById('enderecoError').style.display = 'block';
+                isValid = false;
+            }
+
+            // Verificar se o carrinho está vazio
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            if (cart.length === 0) {
+                alert('Seu carrinho está vazio. Adicione produtos antes de finalizar a compra.');
+                return;
+            }
+
+            if (isValid) {
+                const orderCode = generateOrderCode();
+                const checkoutData = {
+                    orderCode,
+                    nome,
+                    email,
+                    endereco,
+                    pagamento: document.getElementById('pagamento').value,
+                    cart,
+                    total: cart.reduce((sum, item) => sum + item.price * item.quantity, 0),
+                    status: 'Processando',
+                    orderDate: new Date().toISOString()
+                };
+
+                // Salvar pedido no localStorage
+                let orders = JSON.parse(localStorage.getItem('orders')) || [];
+                orders.push(checkoutData);
+                localStorage.setItem('orders', JSON.stringify(orders));
+
+                console.log('Dados da compra:', checkoutData);
+                alert(`Compra finalizada com sucesso! Seu código de pedido é ${orderCode}. Acesse a página de acompanhamento para rastrear seu pedido.`);
+                localStorage.removeItem('cart'); // Limpar carrinho
+                document.getElementById('checkoutForm').reset();
+                loadCart();
+                window.location.href = 'track.html'; // Redirecionar para a página de acompanhamento
+            }
+        }
+
+        // Carregar carrinho ao abrir a página
+        loadCart();
+    </script>
+</body>
+</html>

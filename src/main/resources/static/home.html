@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lily Shoes - Página Inicial</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f5f0e6; /* Bege claro */
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 30px 0;
+        }
+
+        .header h1 {
+            color: #f8c9d2; /* Rosa claro */
+            font-size: 36px;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: #6b5e4a; /* Bege escuro */
+            font-size: 16px;
+        }
+
+        .header-buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .cart-button, .track-button {
+            position: relative;
+        }
+
+        .cart-button button, .track-button button {
+            padding: 10px 20px;
+            background-color: #f8c9d2;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .cart-button button {
+            padding-right: 40px;
+        }
+
+        .cart-button button:hover, .track-button button:hover {
+            background-color: #f8a8b9; /* Rosa médio */
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: #f8a8b9;
+            color: #fff;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+
+        .product-card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            padding: 15px;
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .product-card h3 {
+            color: #6b5e4a;
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        .product-card p {
+            color: #f8a8b9;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .product-card button {
+            width: 100%;
+            padding: 10px;
+            background-color: #f8c9d2;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+
+        .product-card button:hover {
+            background-color: #f8a8b9;
+        }
+
+        .feedback-section, .orders-section {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .feedback-section h2, .orders-section h2 {
+            color: #f8c9d2;
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #6b5e4a;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #f8c9d2;
+            border-radius: 8px;
+            font-size: 14px;
+            background-color: #f9f5f0;
+            color: #6b5e4a;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #f8a8b9;
+        }
+
+        .error {
+            color: #d9534f;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            background-color: #f8c9d2;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #f8a8b9;
+        }
+
+        .toggle-orders {
+            background-color: #f8c9d2;
+            color: #fff;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .toggle-orders:hover {
+            background-color: #f8a8b9;
+        }
+
+        .orders-list {
+            display: none;
+            background-color: #f9f5f0;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #f8c9d2;
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .order-item span {
+            color: #6b5e4a;
+            font-size: 16px;
+        }
+
+        .order-item button {
+            padding: 8px 16px;
+            background-color: #f8c9d2;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .order-item button:hover {
+            background-color: #f8a8b9;
+        }
+
+        .no-orders {
+            color: #6b5e4a;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .header h1 {
+                font-size: 28px;
+            }
+
+            .header-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .products {
+                grid-template-columns: 1fr;
+            }
+
+            .feedback-section, .orders-section {
+                padding: 20px;
+            }
+
+            .order-item {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Lily Shoes</h1>
+            <p>Descubra os melhores calçados com estilo e conforto</p>
+            <div class="header-buttons">
+                <div class="cart-button">
+                    <a href="cart.html">
+                        <button>Ir para o Carrinho <span class="cart-count" id="cartCount">0</span></button>
+                    </a>
+                </div>
+                <div class="track-button">
+                    <a href="track.html">
+                        <button>Acompanhar Pedido</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <section class="products">
+            <div class="product-card">
+                <img src="https://via.placeholder.com/200" alt="Sapato 1">
+                <h3>Sapato Elegante Rosa</h3>
+                <p>R$ 199,90</p>
+                <button onclick="buyProduct('Sapato Elegante Rosa')">Comprar</button>
+            </div>
+            <div class="product-card">
+                <img src="https://via.placeholder.com/200" alt="Sapato 2">
+                <h3>Tênis Casual Bege</h3>
+                <p>R$ 149,90</p>
+                <button onclick="buyProduct('Tênis Casual Bege')">Comprar</button>
+            </div>
+            <div class="product-card">
+                <img src="https://via.placeholder.com/200" alt="Sapato 3">
+                <h3>Sandália Confort</h3>
+                <p>R$ 129,90</p>
+                <button onclick="buyProduct('Sandália Confort')">Comprar</button>
+            </div>
+            <div class="product-card">
+                <img src="https://via.placeholder.com/200" alt="Sapato 4">
+                <h3>Bota Chic</h3>
+                <p>R$ 249,90</p>
+                <button onclick="buyProduct('Bota Chic')">Comprar</button>
+            </div>
+            <div class="product-card">
+                <img src="https://via.placeholder.com/200" alt="Sapato 5">
+                <h3>Sapatilha Clássica</h3>
+                <p>R$ 99,90</p>
+                <button onclick="buyProduct('Sapatilha Clássica')">Comprar</button>
+            </div>
+        </section>
+
+        <section class="feedback-section">
+            <h2>Deixe seu Feedback</h2>
+            <form id="feedbackForm" onsubmit="handleFeedbackSubmit(event)">
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" name="email" required>
+                    <div class="error" id="emailError">Por favor, insira um e-mail válido.</div>
+                </div>
+                <div class="form-group">
+                    <label for="motivoBusca">Motivo da busca</label>
+                    <textarea id="motivoBusca" name="motivoBusca" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="produtoAnterior">Já comprou algum produto ou serviço antes?</label>
+                    <select id="produtoAnterior" name="produtoAnterior" required>
+                        <option value="">Selecione</option>
+                        <option value="sim">Sim</option>
+                        <option value="nao">Não</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="frequenciaCompra">Frequência de compra</label>
+                    <select id="frequenciaCompra" name="frequenciaCompra" required>
+                        <option value="">Selecione</option>
+                        <option value="semanal">Semanal</option>
+                        <option value="mensal">Mensal</option>
+                        <option value="trimestral">Trimestral</option>
+                        <option value="anual">Anual</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="ticketMedio">Ticket médio (valor médio das compras)</label>
+                    <input type="number" id="ticketMedio" name="ticketMedio" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="preferenciaPagamento">Preferência de pagamento</label>
+                    <select id="preferenciaPagamento" name="preferenciaPagamento" required>
+                        <option value="">Selecione</option>
+                        <option value="cartao_credito">Cartão de Crédito</option>
+                        <option value="cartao_debito">Cartão de Débito</option>
+                        <option value="pix">PIX</option>
+                        <option value="boleto">Boleto</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="experienciaCompra">Experiência de compra</label>
+                    <textarea id="experienciaCompra" name="experienciaCompra" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="pontoPositivo">Ponto positivo?</label>
+                    <textarea id="pontoPositivo" name="pontoPositivo" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="problemaCompra">Teve algum problema na compra?</label>
+                    <textarea id="problemaCompra" name="problemaCompra" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="indicariaEmpresa">Indicaria a empresa?</label>
+                    <select id="indicariaEmpresa" name="indicariaEmpresa" required>
+                        <option value="">Selecione</option>
+                        <option value="sim">Sim</option>
+                        <option value="nao">Não</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="expectativaProduto">Expectativa do produto?</label>
+                    <textarea id="expectativaProduto" name="expectativaProduto" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="faltaNaLoja">Sente falta de algo na loja?</label>
+                    <textarea id="faltaNaLoja" name="faltaNaLoja" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="prioridade">Prioridade: preço, qualidade ou atendimento?</label>
+                    <select id="prioridade" name="prioridade" required>
+                        <option value="">Selecione</option>
+                        <option value="preco">Preço</option>
+                        <option value="qualidade">Qualidade</option>
+                        <option value="atendimento">Atendimento</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="tipoProduto">Tipo de produto procurado</label>
+                    <input type="text" id="tipoProduto" name="tipoProduto" required>
+                </div>
+                <div class="form-group">
+                    <label for="canalComunicacao">Canal de comunicação preferido</label>
+                    <select id="canalComunicacao" name="canalComunicacao" required>
+                        <option value="">Selecione</option>
+                        <option value="email">E-mail</option>
+                        <option value="whatsapp">WhatsApp</option>
+                        <option value="telefone">Telefone</option>
+                        <option value="redes_sociais">Redes Sociais</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="frequenciaPromocoes">Frequência de receber promoções</label>
+                    <select id="frequenciaPromocoes" name="frequenciaPromocoes" required>
+                        <option value="">Selecione</option>
+                        <option value="diaria">Diária</option>
+                        <option value="semanal">Semanal</option>
+                        <option value="mensal">Mensal</option>
+                        <option value="nunca">Nunca</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="programaFidelidade">Participa do programa de fidelidade?</label>
+                    <select id="programaFidelidade" name="programaFidelidade" required>
+                        <option value="">Selecione</option>
+                        <option value="sim">Sim</option>
+                        <option value="nao">Não</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="pesquisasSatisfacao">Interessa-se por pesquisas de satisfação?</label>
+                    <select id="pesquisasSatisfacao" name="pesquisasSatisfacao" required>
+                        <option value="">Selecione</option>
+                        <option value="sim">Sim</option>
+                        <option value="nao">Não</option>
+                    </select>
+                </div>
+                <button type="submit">Enviar Feedback</button>
+            </form>
+        </section>
+
+        <section class="orders-section">
+            <h2>Meus Códigos de Acompanhamento</h2>
+            <button class="toggle-orders" onclick="toggleOrdersList()">Mostrar Códigos</button>
+            <div class="orders-list" id="ordersList">
+                <p class="no-orders" id="noOrders">Nenhum pedido encontrado.</p>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Função para atualizar o contador do carrinho
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cartCount').textContent = totalItems;
+        }
+
+        // Função para adicionar produto ao carrinho
+        function buyProduct(productName) {
+            const products = {
+                'Sapato Elegante Rosa': 199.90,
+                'Tênis Casual Bege': 149.90,
+                'Sandália Confort': 129.90,
+                'Bota Chic': 249.90,
+                'Sapatilha Clássica': 99.90
+            };
+
+            const price = products[productName];
+            if (!price) {
+                alert('Erro: Produto não encontrado!');
+                return;
+            }
+
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+            // Verificar se o produto já está no carrinho
+            const existingItem = cart.find(item => item.name === productName);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ name: productName, price, quantity: 1 });
+            }
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            alert(`Produto "${productName}" adicionado ao carrinho!`);
+        }
+
+        // Função para enviar feedback
+        function handleFeedbackSubmit(event) {
+            event.preventDefault();
+            let isValid = true;
+
+            // Resetar mensagens de erro
+            document.querySelectorAll('.error').forEach(error => error.style.display = 'none');
+
+            // Validação do e-mail
+            const email = document.getElementById('email').value;
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                document.getElementById('emailError').style.display = 'block';
+                isValid = false;
+            }
+
+            if (isValid) {
+                const feedbackData = {
+                    email: document.getElementById('email').value,
+                    motivoBusca: document.getElementById('motivoBusca').value,
+                    produtoAnterior: document.getElementById('produtoAnterior').value,
+                    frequenciaCompra: document.getElementById('frequenciaCompra').value,
+                    ticketMedio: document.getElementById('ticketMedio').value,
+                    preferenciaPagamento: document.getElementById('preferenciaPagamento').value,
+                    experienciaCompra: document.getElementById('experienciaCompra').value,
+                    pontoPositivo: document.getElementById('pontoPositivo').value,
+                    problemaCompra: document.getElementById('problemaCompra').value,
+                    indicariaEmpresa: document.getElementById('indicariaEmpresa').value,
+                    expectativaProduto: document.getElementById('expectativaProduto').value,
+                    faltaNaLoja: document.getElementById('faltaNaLoja').value,
+                    prioridade: document.getElementById('prioridade').value,
+                    tipoProduto: document.getElementById('tipoProduto').value,
+                    canalComunicacao: document.getElementById('canalComunicacao').value,
+                    frequenciaPromocoes: document.getElementById('frequenciaPromocoes').value,
+                    programaFidelidade: document.getElementById('programaFidelidade').value,
+                    pesquisasSatisfacao: document.getElementById('pesquisasSatisfacao').value
+                };
+
+                console.log('Feedback do cliente:', feedbackData);
+                alert('Feedback enviado com sucesso! Obrigado por sua colaboração.');
+                document.getElementById('feedbackForm').reset();
+            }
+        }
+
+        // Função para alternar visibilidade da lista de pedidos
+        function toggleOrdersList() {
+            const ordersList = document.getElementById('ordersList');
+            const button = document.querySelector('.toggle-orders');
+            if (ordersList.style.display === 'block') {
+                ordersList.style.display = 'none';
+                button.textContent = 'Mostrar Códigos';
+            } else {
+                ordersList.style.display = 'block';
+                button.textContent = 'Ocultar Códigos';
+                loadOrders();
+            }
+        }
+
+        // Função para carregar os códigos de pedidos
+        function loadOrders() {
+            const ordersList = document.getElementById('ordersList');
+            const noOrders = document.getElementById('noOrders');
+            const orders = JSON.parse(localStorage.getItem('orders')) || [];
+
+            if (orders.length === 0) {
+                noOrders.style.display = 'block';
+                ordersList.innerHTML = '<p class="no-orders" id="noOrders">Nenhum pedido encontrado.</p>';
+                return;
+            }
+
+            noOrders.style.display = 'none';
+            ordersList.innerHTML = '';
+
+            orders.forEach(order => {
+                const orderItem = document.createElement('div');
+                orderItem.className = 'order-item';
+                orderItem.innerHTML = `
+                    <span>Código: ${order.orderCode} - Data: ${new Date(order.orderDate).toLocaleString('pt-BR')}</span>
+                    <button onclick="trackOrder('${order.orderCode}')">Rastrear</button>
+                `;
+                ordersList.appendChild(orderItem);
+            });
+        }
+
+        // Função para redirecionar para track.html com o código do pedido
+        function trackOrder(orderCode) {
+            window.location.href = `track.html?code=${encodeURIComponent(orderCode)}`;
+        }
+
+        // Atualizar contador do carrinho ao carregar a página
+        document.addEventListener('DOMContentLoaded', updateCartCount);
+    </script>
+</body>
+</html>

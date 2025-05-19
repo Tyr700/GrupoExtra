@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acompanhar Pedido - Lily Shoes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f5f0e6; /* Bege claro */
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 30px 0;
+        }
+
+        .header h1 {
+            color: #f8c9d2; /* Rosa claro */
+            font-size: 32px;
+        }
+
+        .track-section {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .track-section h2 {
+            color: #f8c9d2;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #6b5e4a;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #f8c9d2;
+            border-radius: 8px;
+            font-size: 14px;
+            background-color: #f9f5f0;
+            color: #6b5e4a;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #f8a8b9;
+        }
+
+        .error {
+            color: #d9534f;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        button[type="submit"],
+        .back-button button {
+            width: 100%;
+            padding: 12px;
+            background-color: #f8c9d2;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button[type="submit"]:hover,
+        .back-button button:hover {
+            background-color: #f8a8b9;
+        }
+
+        .order-details {
+            display: none;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        .order-details h3 {
+            color: #f8c9d2;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .order-details p {
+            color: #6b5e4a;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .order-items {
+            margin-top: 20px;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #f8c9d2;
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .back-button {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .order-item {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Acompanhar Pedido - Lily Shoes</h1>
+        </div>
+
+        <div class="track-section">
+            <h2>Acompanhar seu Pedido</h2>
+            <form id="trackForm" onsubmit="trackOrder(event)">
+                <div class="form-group">
+                    <label for="orderCode">Código do Pedido</label>
+                    <input type="text" id="orderCode" name="orderCode" required>
+                    <div class="error" id="orderCodeError">Código do pedido inválido.</div>
+                </div>
+                <button type="submit">Acompanhar</button>
+            </form>
+        </div>
+
+        <div class="order-details" id="orderDetails">
+            <h3>Detalhes do Pedido</h3>
+            <p><strong>Código:</strong> <span id="orderCodeDisplay"></span></p>
+            <p><strong>Status:</strong> <span id="orderStatus"></span></p>
+            <p><strong>Data do Pedido:</strong> <span id="orderDate"></span></p>
+            <p><strong>Nome:</strong> <span id="orderName"></span></p>
+            <p><strong>E-mail:</strong> <span id="orderEmail"></span></p>
+            <p><strong>Endereço:</strong> <span id="orderAddress"></span></p>
+            <p><strong>Pagamento:</strong> <span id="orderPayment"></span></p>
+            <p><strong>Total:</strong> R$ <span id="orderTotal"></span></p>
+            <div class="order-items" id="orderItems"></div>
+        </div>
+
+        <div class="back-button">
+            <a href="home.html"><button>Voltar à Loja</button></a>
+        </div>
+    </div>
+
+    <script>
+        // Função para simular o status do pedido com base no tempo
+        function getOrderStatus(orderDate) {
+            const now = new Date();
+            const orderTime = new Date(orderDate);
+            const diffMinutes = (now - orderTime) / 1000 / 60;
+
+            if (diffMinutes < 1) {
+                return 'Processando';
+            } else if (diffMinutes < 2) {
+                return 'Enviado';
+            } else {
+                return 'Entregue';
+            }
+        }
+
+        // Função para acompanhar o pedido
+        function trackOrder(event) {
+            event.preventDefault();
+            const orderCode = document.getElementById('orderCode').value.trim();
+            const orderCodeError = document.getElementById('orderCodeError');
+            orderCodeError.style.display = 'none';
+
+            const orders = JSON.parse(localStorage.getItem('orders')) || [];
+            const order = orders.find(o => o.orderCode === orderCode);
+
+            if (!order) {
+                orderCodeError.style.display = 'block';
+                return;
+            }
+
+            // Exibir detalhes do pedido
+            const orderDetails = document.getElementById('orderDetails');
+            orderDetails.style.display = 'block';
+
+            document.getElementById('orderCodeDisplay').textContent = order.orderCode;
+            document.getElementById('orderStatus').textContent = getOrderStatus(order.orderDate);
+            document.getElementById('orderDate').textContent = new Date(order.orderDate).toLocaleString('pt-BR');
+            document.getElementById('orderName').textContent = order.nome;
+            document.getElementById('orderEmail').textContent = order.email;
+            document.getElementById('orderAddress').textContent = order.endereco;
+            document.getElementById('orderPayment').textContent = order.pagamento.replace('_', ' ').toUpperCase();
+            document.getElementById('orderTotal').textContent = order.total.toFixed(2);
+
+            // Exibir itens do pedido
+            const orderItems = document.getElementById('orderItems');
+            orderItems.innerHTML = '';
+            order.cart.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'order-item';
+                itemElement.innerHTML = `
+                    <span>${item.name} - R$ ${item.price.toFixed(2)} x ${item.quantity}</span>
+                    <span>R$ ${(item.price * item.quantity).toFixed(2)}</span>
+                `;
+                orderItems.appendChild(itemElement);
+            });
+        }
+
+        // Função para preencher o código do pedido a partir da URL
+        function loadOrderCodeFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const orderCode = urlParams.get('code');
+            if (orderCode) {
+                document.getElementById('orderCode').value = decodeURIComponent(orderCode);
+                // Simular envio do formulário para exibir os detalhes
+                const event = new Event('submit', { bubbles: true, cancelable: true });
+                document.getElementById('trackForm').dispatchEvent(event);
+            }
+        }
+
+        // Carregar código da URL ao abrir a página
+        document.addEventListener('DOMContentLoaded', loadOrderCodeFromURL);
+    </script>
+</body>
+</html>

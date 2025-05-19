@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - Lily Shoes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f5f0e6; /* Bege claro */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            color: #f8c9d2; /* Rosa claro */
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: #6b5e4a; /* Bege escuro */
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #6b5e4a;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #f8c9d2;
+            border-radius: 8px;
+            font-size: 14px;
+            background-color: #f9f5f0;
+            color: #6b5e4a;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #f8a8b9;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #f8c9d2;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #f8a8b9;
+        }
+
+        .error {
+            color: #d9534f;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Lily Shoes</h1>
+            <p>Crie sua conta para uma experiência personalizada</p>
+        </div>
+        <form id="registerForm" onsubmit="handleSubmit(event)">
+            <div class="form-group">
+                <label for="nome">Nome completo</label>
+                <input type="text" id="nome" name="nome" required>
+                <div class="error" id="nomeError">Por favor, insira um nome válido.</div>
+            </div>
+            <div class="form-group">
+                <label for="email">E-mail</label>
+                <input type="email" id="email" name="email" required>
+                <div class="error" id="emailError">Por favor, insira um e-mail válido.</div>
+            </div>
+            <div class="form-group">
+                <label for="senha">Senha</label>
+                <input type="password" id="senha" name="senha" required>
+                <div class="error" id="senhaError">A senha deve ter pelo menos 6 caracteres.</div>
+            </div>
+            <div class="form-group">
+                <label for="telefone">Telefone</label>
+                <input type="tel" id="telefone" name="telefone" required placeholder="(99) 99999-9999">
+                <div class="error" id="telefoneError">Por favor, insira um telefone válido. Ex: (99) 99999-9999</div>
+            </div>
+            <div class="form-group">
+                <label for="endereco">Endereço</label>
+                <input type="text" id="endereco" name="endereco" required>
+                <div class="error" id="enderecoError">Por favor, insira um endereço válido.</div>
+            </div>
+
+            <!-- Botão corrigido -->
+            <button type="submit">Cadastrar</button>
+        </form>
+    </div>
+
+    <script>
+        function handleSubmit(event) {
+            event.preventDefault();
+            let isValid = true;
+
+            // Resetar mensagens de erro
+            document.querySelectorAll('.error').forEach(error => error.style.display = 'none');
+
+            // Validação do nome
+            const nome = document.getElementById('nome').value.trim();
+            if (nome.length < 2) {
+                document.getElementById('nomeError').style.display = 'block';
+                isValid = false;
+            }
+
+            // Validação do e-mail
+            const email = document.getElementById('email').value.trim();
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                document.getElementById('emailError').style.display = 'block';
+                isValid = false;
+            }
+
+            // Validação da senha
+            const senha = document.getElementById('senha').value;
+            if (senha.length < 6) {
+                document.getElementById('senhaError').style.display = 'block';
+                isValid = false;
+            }
+
+            // Validação do telefone
+            const telefone = document.getElementById('telefone').value.trim();
+const telefoneRegex = /^\d{8,15}$/;
+if (!telefoneRegex.test(telefone)) {
+    document.getElementById('telefoneError').style.display = 'block';
+    isValid = false;
+            }
+
+            // Validação do endereço
+            const endereco = document.getElementById('endereco').value.trim();
+            if (endereco.length < 5) {
+                document.getElementById('enderecoError').style.display = 'block';
+                isValid = false;
+            }
+
+            if (isValid) {
+                const dataCriacao = new Date().toISOString();
+                const userData = {
+                    nome,
+                    email,
+                    senha,
+                    dataCriacao,
+                    telefone,
+                    endereco
+                };
+                console.log('Dados do usuário:', userData);
+                alert('Cadastro realizado com sucesso!');
+
+                // Redirecionar para a página inicial
+                window.location.href = "home.html";
+            }
+        }
+    </script>
+</body>
+</html>
