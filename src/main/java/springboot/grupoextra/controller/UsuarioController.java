@@ -16,7 +16,7 @@ import springboot.grupoextra.Service.UsuarioService;
 import springboot.grupoextra.model.UsuarioModel;
 
 @RestController
-@RequestMapping("/usuario")
+@RequestMapping("/usuarios")
 public class UsuarioController {
     
     @Autowired
