@@ -25,7 +25,7 @@ public class FeedBackController {
     @Autowired
     private EmailService emailService;
 
-    @PostMapping("/cadastro")
+    @PostMapping("/feedback")
     public ResponseEntity<FeedBackModel> criarFeedback(@RequestBody FeedBackModel feedback) {
         try {
             FeedBackModel novoFeedback = feedbackService.criarFeedback(feedback);
@@ -36,11 +36,22 @@ public class FeedBackController {
         }
     }
 
+    @PostMapping("/")
+    public ResponseEntity<String> receberFeedback(@RequestBody FeedBackModel feedback) {
+        try {
+            emailService.enviarEmailFeedback(feedback.getEmail());
+            return ResponseEntity.ok("Feedback recebido com sucesso!");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Erro ao processar feedback: " + e.getMessage());
+        }
+    }
+
     @GetMapping("/listar")
     public ResponseEntity<List<FeedBackModel>> listarFeedbacks() {
         List<FeedBackModel> feedbacks = feedbackService.listarFeedbacks();
         return ResponseEntity.ok(feedbacks);
     }
+    
     
     
     

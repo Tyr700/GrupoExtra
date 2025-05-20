@@ -18,6 +18,7 @@ public class EmailService {
 
     public void enviarEmailFeedback(String emailDestino) {
         SimpleMailMessage mensagem = new SimpleMailMessage();
+        mensagem.setFrom("lilyshoes@exemplo.com");
         mensagem.setTo(emailDestino);
         mensagem.setSubject("Feedback Recebido - Obrigado!");
         mensagem.setText("Olá!\n\n" +
