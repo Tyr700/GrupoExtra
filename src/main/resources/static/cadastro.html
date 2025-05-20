@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+    <script src="js/cadastro.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro - Lily Shoes</title>
@@ -206,46 +207,9 @@ if (!telefoneRegex.test(telefone)) {
                 window.location.href = "home.html";
             }
         }
-        async function cadastrarUsuario(userData) {
-            try {
-                const response = await fetch('/usuarios/cadastro', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(userData)
-                });
+        
 
-                if (!response.ok) {
-                    throw new Error('Erro ao cadastrar usuário');
-                }
-
-                return await response.json();
-            } catch (error) {
-                console.error('Erro:', error);
-                throw error;
-            }
-        }
-
-        async function loginUsuario(email, senha) {
-            try {
-                const response = await fetch(`/usuarios/login/${email}/${senha}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
-
-                if (!response.ok) {
-                    throw new Error('Credenciais inválidas');
-                }
-
-                return await response.json();
-            } catch (error) {
-                console.error('Erro:', error);
-                throw error;
-            }
-        }
+        
     </script>
 </body>
 </html>
