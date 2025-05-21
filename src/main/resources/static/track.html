@@ -3,134 +3,195 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acompanhar Pedido - Lily Shoes</title>
+    <title>Rastreamento - Lily Shoes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Playfair Display', Georgia, serif;
         }
 
         body {
-            background-color: #f5f0e6; /* Bege claro */
+            background: linear-gradient(135deg, #FFF5F7 0%, #FFE4E1 100%);
+            position: relative;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
+            padding-bottom: 60px;
         }
 
         .header {
             text-align: center;
             padding: 30px 0;
-        }
-
-        .header h1 {
-            color: #f8c9d2; /* Rosa claro */
-            font-size: 32px;
-        }
-
-        .track-section {
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            background: url('https://via.placeholder.com/1200x200?text=Textura+Sapatos') center/cover no-repeat;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
             margin-bottom: 30px;
         }
 
+        .header h1 {
+            color: #FF69B4;
+            font-size: 40px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .header p {
+            color: #333333;
+            font-size: 18px;
+            font-weight: 400;
+            font-style: italic;
+        }
+
+        .track-section {
+            background-color: #FFF8F8;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin: 0 auto;
+            transition: transform 0.3s;
+        }
+
+        .track-section:hover {
+            transform: translateY(-5px);
+        }
+
         .track-section h2 {
-            color: #f8c9d2;
-            font-size: 24px;
+            color: #FF69B4;
+            font-size: 28px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .track-form {
             margin-bottom: 20px;
         }
 
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
+        .track-form label {
             display: block;
-            color: #6b5e4a;
+            color: #333333;
+            font-size: 16px;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .track-form input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #FF69B4;
+            border-radius: 8px;
+            font-size: 16px;
+            background-color: #FFFFFF;
+            color: #333333;
+            font-weight: 400;
+            transition: border-color 0.3s, transform 0.2s;
+        }
+
+        .track-form input:focus {
+            border-color: #FF1493;
+            outline: none;
+            transform: scale(1.02);
+        }
+
+        .track-form .error {
+            color: #D32F2F;
             font-size: 14px;
+            margin-top: 5px;
+            display: none;
+            font-weight: 400;
+        }
+
+        .track-form button {
+            width: 100%;
+            padding: 12px;
+            background-color: #FF69B4;
+            border: none;
+            border-radius: 8px;
+            color: #FFFFFF;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .track-form button:hover {
+            background-color: #FF1493;
+            transform: scale(1.05);
+        }
+
+        .message {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            text-align: left;
+            color: #333333;
+            background-color: #FFF8F8;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            display: none;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+
+        .message.show {
+            opacity: 1;
+            transform: translateY(0);
+            display: block;
+        }
+
+        .message-success {
+            border: 2px solid #FF69B4;
+        }
+
+        .message-success::before {
+            content: '✓ ';
+            color: #FF69B4;
+            font-weight: 700;
+        }
+
+        .message-error {
+            border: 2px solid #D32F2F;
+            text-align: center;
+        }
+
+        .message-error::before {
+            content: '⚠ ';
+            color: #D32F2F;
+            font-weight: 700;
+        }
+
+        .message ul {
+            margin-top: 10px;
+            padding-left: 20px;
+            font-size: 16px;
+            font-weight: 400;
+            color: #333333;
+        }
+
+        .message ul li {
             margin-bottom: 5px;
         }
 
-        .form-group input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #f8c9d2;
-            border-radius: 8px;
-            font-size: 14px;
-            background-color: #f9f5f0;
-            color: #6b5e4a;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: #f8a8b9;
-        }
-
-        .error {
-            color: #d9534f;
-            font-size: 12px;
+        .message ul ul {
             margin-top: 5px;
-            display: none;
-        }
-
-        button[type="submit"],
-        .back-button button {
-            width: 100%;
-            padding: 12px;
-            background-color: #f8c9d2;
-            border: none;
-            border-radius: 8px;
-            color: #fff;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        button[type="submit"]:hover,
-        .back-button button:hover {
-            background-color: #f8a8b9;
-        }
-
-        .order-details {
-            display: none;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            margin-top: 20px;
-        }
-
-        .order-details h3 {
-            color: #f8c9d2;
-            font-size: 20px;
-            margin-bottom: 15px;
-        }
-
-        .order-details p {
-            color: #6b5e4a;
-            font-size: 16px;
-            margin-bottom: 10px;
-        }
-
-        .order-items {
-            margin-top: 20px;
-        }
-
-        .order-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #f8c9d2;
-        }
-
-        .order-item:last-child {
-            border-bottom: none;
+            padding-left: 20px;
         }
 
         .back-button {
@@ -138,14 +199,49 @@
             text-align: center;
         }
 
+        .back-button button {
+            width: 100%;
+            padding: 12px;
+            background-color: #FF69B4;
+            border: none;
+            border-radius: 8px;
+            color: #FFFFFF;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .back-button button:hover {
+            background-color: #FF1493;
+            transform: scale(1.05);
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 10px;
+                padding-bottom: 60px;
             }
 
-            .order-item {
-                flex-direction: column;
-                gap: 10px;
+            .header h1 {
+                font-size: 32px;
+            }
+
+            .track-section {
+                padding: 20px;
+            }
+
+            .track-form input {
+                font-size: 14px;
+            }
+
+            .message {
+                font-size: 16px;
+            }
+
+            .message ul {
+                font-size: 14px;
             }
         }
     </style>
@@ -153,111 +249,94 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>Acompanhar Pedido - Lily Shoes</h1>
+            <h1>Lily Shoes</h1>
+            <p>Rastreie seu pedido com facilidade!</p>
         </div>
 
-        <div class="track-section">
-            <h2>Acompanhar seu Pedido</h2>
-            <form id="trackForm" onsubmit="trackOrder(event)">
-                <div class="form-group">
-                    <label for="orderCode">Código do Pedido</label>
-                    <input type="text" id="orderCode" name="orderCode" required>
-                    <div class="error" id="orderCodeError">Código do pedido inválido.</div>
-                </div>
-                <button type="submit">Acompanhar</button>
-            </form>
-        </div>
-
-        <div class="order-details" id="orderDetails">
-            <h3>Detalhes do Pedido</h3>
-            <p><strong>Código:</strong> <span id="orderCodeDisplay"></span></p>
-            <p><strong>Status:</strong> <span id="orderStatus"></span></p>
-            <p><strong>Data do Pedido:</strong> <span id="orderDate"></span></p>
-            <p><strong>Nome:</strong> <span id="orderName"></span></p>
-            <p><strong>E-mail:</strong> <span id="orderEmail"></span></p>
-            <p><strong>Endereço:</strong> <span id="orderAddress"></span></p>
-            <p><strong>Pagamento:</strong> <span id="orderPayment"></span></p>
-            <p><strong>Total:</strong> R$ <span id="orderTotal"></span></p>
-            <div class="order-items" id="orderItems"></div>
-        </div>
+        <section class="track-section">
+            <h2>Rastrear Pedido</h2>
+            <div class="track-form">
+                <label for="orderCode">Código do Pedido</label>
+                <input type="text" id="orderCode" name="orderCode" required>
+                <div class="error" id="orderCodeError">Por favor, insira um código de pedido válido.</div>
+                <button onclick="trackOrder()">Rastrear</button>
+            </div>
+            <div class="message" id="trackResult"></div>
+        </section>
 
         <div class="back-button">
-            <a href="home.html"><button>Voltar à Loja</button></a>
+            <a href="index.html"><button>Voltar à Loja</button></a>
         </div>
     </div>
 
     <script>
-        // Função para simular o status do pedido com base no tempo
-        function getOrderStatus(orderDate) {
-            const now = new Date();
-            const orderTime = new Date(orderDate);
-            const diffMinutes = (now - orderTime) / 1000 / 60;
-
-            if (diffMinutes < 1) {
-                return 'Processando';
-            } else if (diffMinutes < 2) {
-                return 'Enviado';
-            } else {
-                return 'Entregue';
+        // Função para mostrar mensagem com animação
+        function showMessage(elementId, message, type) {
+            const messageElement = document.getElementById(elementId);
+            messageElement.innerHTML = message; // Usar innerHTML para suportar listas
+            messageElement.className = `message ${type} show`;
+            // Não desaparecer automaticamente para a mensagem de sucesso
+            if (elementId !== 'trackResult' || type !== 'message-success') {
+                setTimeout(() => {
+                    messageElement.className = `message ${type}`;
+                }, 3000);
             }
         }
 
-        // Função para acompanhar o pedido
-        function trackOrder(event) {
-            event.preventDefault();
-            const orderCode = document.getElementById('orderCode').value.trim();
-            const orderCodeError = document.getElementById('orderCodeError');
-            orderCodeError.style.display = 'none';
-
+        // Função para rastrear pedido
+        function trackOrder() {
+            const orderCode = document.getElementById('orderCode').value;
             const orders = JSON.parse(localStorage.getItem('orders')) || [];
-            const order = orders.find(o => o.orderCode === orderCode);
+            const trackResult = document.getElementById('trackResult');
+            const orderCodeError = document.getElementById('orderCodeError');
 
-            if (!order) {
+            // Resetar mensagem de erro
+            orderCodeError.style.display = 'none';
+            trackResult.className = 'message';
+
+            // Validação do código
+            if (!orderCode) {
                 orderCodeError.style.display = 'block';
                 return;
             }
 
-            // Exibir detalhes do pedido
-            const orderDetails = document.getElementById('orderDetails');
-            orderDetails.style.display = 'block';
+            const order = orders.find(o => o.orderCode === orderCode);
+            if (order) {
+                // Formatar método de pagamento
+                const pagamentoMap = {
+                    'cartao_credito': 'Cartão de Crédito',
+                    'pix': 'PIX',
+                    'boleto': 'Boleto'
+                };
+                const pagamento = pagamentoMap[order.pagamento] || order.pagamento;
 
-            document.getElementById('orderCodeDisplay').textContent = order.orderCode;
-            document.getElementById('orderStatus').textContent = getOrderStatus(order.orderDate);
-            document.getElementById('orderDate').textContent = new Date(order.orderDate).toLocaleString('pt-BR');
-            document.getElementById('orderName').textContent = order.nome;
-            document.getElementById('orderEmail').textContent = order.email;
-            document.getElementById('orderAddress').textContent = order.endereco;
-            document.getElementById('orderPayment').textContent = order.pagamento.replace('_', ' ').toUpperCase();
-            document.getElementById('orderTotal').textContent = order.total.toFixed(2);
+                // Formatar itens do carrinho
+                const itens = order.cart.map(item => 
+                    `<li>${item.name}: R$ ${item.price.toFixed(2)} x ${item.quantity} = R$ ${(item.price * item.quantity).toFixed(2)}</li>`
+                ).join('');
 
-            // Exibir itens do pedido
-            const orderItems = document.getElementById('orderItems');
-            orderItems.innerHTML = '';
-            order.cart.forEach(item => {
-                const itemElement = document.createElement('div');
-                itemElement.className = 'order-item';
-                itemElement.innerHTML = `
-                    <span>${item.name} - R$ ${item.price.toFixed(2)} x ${item.quantity}</span>
-                    <span>R$ ${(item.price * item.quantity).toFixed(2)}</span>
+                // Montar mensagem com todas as informações
+                const message = `
+                    Pedido encontrado!
+                    <ul>
+                        <li><strong>Código do Pedido:</strong> ${order.orderCode}</li>
+                        <li><strong>Cliente:</strong> ${order.nome}</li>
+                        <li><strong>E-mail:</strong> ${order.email}</li>
+                        <li><strong>Endereço:</strong> ${order.endereco}</li>
+                        <li><strong>Método de Pagamento:</strong> ${pagamento}</li>
+                        <li><strong>Itens:</strong>
+                            <ul>${itens}</ul>
+                        </li>
+                        <li><strong>Total:</strong> R$ ${order.total.toFixed(2)}</li>
+                        <li><strong>Status:</strong> ${order.status}</li>
+                        <li><strong>Data do Pedido:</strong> ${new Date(order.orderDate).toLocaleString('pt-BR')}</li>
+                    </ul>
                 `;
-                orderItems.appendChild(itemElement);
-            });
-        }
-
-        // Função para preencher o código do pedido a partir da URL
-        function loadOrderCodeFromURL() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const orderCode = urlParams.get('code');
-            if (orderCode) {
-                document.getElementById('orderCode').value = decodeURIComponent(orderCode);
-                // Simular envio do formulário para exibir os detalhes
-                const event = new Event('submit', { bubbles: true, cancelable: true });
-                document.getElementById('trackForm').dispatchEvent(event);
+                showMessage('trackResult', message, 'message-success');
+            } else {
+                showMessage('trackResult', 'Código de pedido não encontrado.', 'message-error');
             }
         }
-
-        // Carregar código da URL ao abrir a página
-        document.addEventListener('DOMContentLoaded', loadOrderCodeFromURL);
     </script>
 </body>
 </html>

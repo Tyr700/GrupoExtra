@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link rel="js" href="login.js">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Lily Shoes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Playfair Display', Georgia, serif;
+        }
+
+        body {
+            background-color: #FFFFFF;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 30px 0;
+        }
+
+        .header h1 {
+            color: #FF69B4;
+            font-size: 36px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .login-section {
+            background-color: #FFFFFF;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .login-section h2 {
+            color: #FF69B4;
+            font-size: 28px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #333333;
+            font-size: 16px;
+            margin-bottom: 5px;
+            font-weight: 400;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #FF69B4;
+            border-radius: 8px;
+            font-size: 16px;
+            background-color: #F9F9F9;
+            color: #333333;
+            font-weight: 400;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #FF1493;
+        }
+
+        .error {
+            color: #D32F2F;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+            font-weight: 400;
+        }
+
+        button[type="submit"],
+        .cadastro-button button,
+        .back-button button {
+            width: 100%;
+            padding: 12px;
+            background-color: #FF69B4;
+            border: none;
+            border-radius: 8px;
+            color: #FFFFFF;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        button[type="submit"]:hover,
+        .cadastro-button button:hover,
+        .back-button button:hover {
+            background-color: #FF1493;
+        }
+
+        .cadastro-button {
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .back-button {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .header h1 {
+                font-size: 32px;
+            }
+
+            .login-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Login - Lily Shoes</h1>
+        </div>
+
+        <section class="login-section">
+            <h2>Faça seu Login</h2>
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" name="email" required>
+                    <div class="error" id="emailError">Por favor, insira um e-mail válido.</div>
+                </div>
+                <div class="form-group">
+                    <label for="senha">Senha</label>
+                    <input type="password" id="senha" name="senha" required>
+                    <div class="error" id="senhaError">E-mail ou senha incorretos.</div>
+                </div>
+                <button type="submit">Entrar</button>
+            </form>
+            <div class="cadastro-button">
+                <a href="cadastro.html">
+                    <button>Cadastrar</button>
+                </a>
+            </div>
+        </section>
+
+        <div class="back-button">
+            <a href="index.html"><button>Voltar à Loja</button></a>
+        </div>
+    </div>
+
+    <script>
+        // Função para validar e processar login
+        function handleLogin(event) {
+            event.preventDefault();
+            let isValid = true;
+
+            // Resetar mensagens de erro
+            document.querySelectorAll('.error').forEach(error => error.style.display = 'none');
+
+            // Validação do e-mail
+            const email = document.getElementById('email').value;
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                document.getElementById('emailError').style.display = 'block';
+                isValid = false;
+            }
+
+            if (isValid) {
+                const senha = document.getElementById('senha').value;
+                const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+
+                const usuario = usuarios.find(u => u.email === email && u.senha === senha);
+                if (usuario) {
+                    alert('Login realizado com sucesso!');
+                    localStorage.setItem('usuarioLogado', JSON.stringify(usuario));
+                    document.getElementById('loginForm').reset();
+                    window.location.href = 'index.html';
+                } else {
+                    document.getElementById('senhaError').style.display = 'block';
+                    isValid = false;
+                }
+            }
+        }
+    </script>
+</body>
+</html>

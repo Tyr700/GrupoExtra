@@ -20,7 +20,7 @@ public class PedidoController {
     @Autowired
     private PedidoService pedidoService;
 
-    @PostMapping("/fazerPedido")
+    @PostMapping("/carrinho")
     public PedidoModel fazerPedido(@RequestBody PedidoModel pedido) {
         try {
             return pedidoService.criarPedido(pedido);

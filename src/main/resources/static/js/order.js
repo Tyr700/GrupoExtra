@@ -1,6 +1,6 @@
 async function enviarPedidoParaBackend(checkoutData) {
     try {
-        const response = await fetch('/pedidos/fazerPedido', {
+        const response = await fetch('/pedidos/carrinho', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

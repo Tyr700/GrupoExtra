@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback - Lily Shoes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Playfair Display', Georgia, serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #FFF5F7 0%, #FFE4E1 100%);
+            position: relative;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            padding-bottom: 60px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 30px 0;
+            position: relative;
+            background: url('https://via.placeholder.com/1200x200?text=Textura+Sapatos') center/cover no-repeat;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #FF69B4;
+            font-size: 40px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .header p {
+            color: #333333;
+            font-size: 18px;
+            font-weight: 400;
+            font-style: italic;
+        }
+
+        .feedback-section {
+            background-color: #FFF8F8;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin: 0 auto;
+            transition: transform 0.3s;
+        }
+
+        .feedback-section:hover {
+            transform: translateY(-5px);
+        }
+
+        .feedback-section h2 {
+            color: #FF69B4;
+            font-size: 28px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #333333;
+            font-size: 16px;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #FF69B4;
+            border-radius: 8px;
+            font-size: 16px;
+            background-color: #FFFFFF;
+            color: #333333;
+            font-weight: 400;
+            transition: border-color 0.3s, transform 0.2s;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #FF1493;
+            outline: none;
+            transform: scale(1.02);
+        }
+
+        .error {
+            color: #D32F2F;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+            font-weight: 400;
+        }
+
+        button[type="submit"],
+        .back-button button {
+            width: 100%;
+            padding: 12px;
+            background-color: #FF69B4;
+            border: none;
+            border-radius: 8px;
+            color: #FFFFFF;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        button[type="submit"]:hover,
+        .back-button button:hover {
+            background-color: #FF1493;
+            transform: scale(1.05);
+        }
+
+        .back-button {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .feedback-result {
+            margin-top: 20px;
+            color: #333333;
+            font-size: 16px;
+            font-weight: 400;
+            text-align: center;
+            background-color: #FFF8F8;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+                padding-bottom: 60px;
+            }
+
+            .header h1 {
+                font-size: 32px;
+            }
+
+            .feedback-section {
+                padding: 20px;
+            }
+
+            .form-group input,
+            .form-group select,
+            .form-group textarea {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Lily Shoes</h1>
+            <p>Sua opinião é importante para nós!</p>
+        </div>
+
+        <section class="feedback-section">
+            <h2>Deixe seu Feedback</h2>
+            <form id="feedbackForm" onsubmit="handleFeedbackSubmit(event)">
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" name="email" required>
+                    <div class="error" id="emailError">Por favor, insira um e-mail válido.</div>
+                </div>
+                <div class="form-group">
+                    <label for="motivoBusca">Motivo da busca</label>
+                    <textarea id="motivoBusca" name="motivoBusca" required></textarea>
+                    <div class="error" id="motivoBuscaError">Por favor, insira o motivo da busca.</div>
+                </div>
+                <div class="form-group">
+                    <label for="produtoAnterior">Já comprou algum produto ou serviço antes?</label>
+                    <select id="produtoAnterior" name="produtoAnterior" required>
+                        <option value="">Selecione</option>
+                        <option value="sim">Sim</option>
+                        <option value="nao">Não</option>
+                    </select>
+                    <div class="error" id="produtoAnteriorError">Por favor, selecione uma opção.</div>
+                </div>
+                <div class="form-group">
+                    <label for="frequenciaCompra">Frequência de compra</label>
+                    <select id="frequenciaCompra" name="frequenciaCompra" required>
+                        <option value="">Selecione</option>
+                        <option value="semanal">Semanal</option>
+                        <option value="mensal">Mensal</option>
+                        <option value="trimestral">Trimestral</option>
+                        <option value="anual">Anual</option>
+                    </select>
+                    <div class="error" id="frequenciaCompraError">Por favor, selecione uma opção.</div>
+                </div>
+                <div class="form-group">
+                    <label for="ticketMedio">Ticket médio (valor médio das compras)</label>
+                    <input type="number" id="ticketMedio" name="ticketMedio" step="0.01" min="0.01" required oninput="if(this.value<=0)this.value=0.01">
+                    <div class="error" id="ticketMedioError">O ticket médio deve ser maior que zero.</div>
+                </div>
+                <div class="form-group">
+                    <label for="preferenciaPagamento">Preferência de pagamento</label>
+                    <select id="preferenciaPagamento" name="preferenciaPagamento" required>
+                        <option value="">Selecione</option>
+                        <option value="cartao_credito">Cartão de Crédito</option>
+                        <option value="cartao_debito">Cartão de Débito</option>
+                        <option value="pix">PIX</option>
+                        <option value="boleto">Boleto</option>
+                    </select>
+                    <div class="error" id="preferenciaPagamentoError">Por favor, selecione uma opção.</div>
+                </div>
+                <div class="form-group">
+                    <label for="experienciaCompra">Experiência de compra</label>
+                    <textarea id="experienciaCompra" name="experienciaCompra" required></textarea>
+                    <div class="error" id="experienciaCompraError">Por favor, descreva sua experiência.</div>
+                </div>
+                <div class="form-group">
+                    <label for="pontoPositivo">Ponto positivo?</label>
+                    <textarea id="pontoPositivo" name="pontoPositivo" required></textarea>
+                    <div class="error" id="pontoPositivoError">Por favor, descreva um ponto positivo.</div>
+                </div>
+                <div class="form-group">
+                    <label for="problemaCompra">Teve algum problema na compra?</label>
+                    <textarea id="problemaCompra" name="problemaCompra" required></textarea>
+                    <div class="error" id="problemaCompraError">Por favor, descreva se houve problemas.</div>
+                </div>
+                <div class="form-group">
+                    <label for="indicariaEmpresa">Indicaria a empresa?</label>
+                    <select id="indicariaEmpresa" name="indicariaEmpresa" required>
+                        <option value="">Selecione</option>
+                        <option value="sim">Sim</option>
+                        <option value="nao">Não</option>
+                    </select>
+                    <div class="error" id="indicariaEmpresaError">Por favor, selecione uma opção.</div>
+                </div>
+                <div class="form-group">
+                    <label for="expectativaProduto">Expectativa do produto?</label>
+                    <textarea id="expectativaProduto" name="expectativaProduto" required></textarea>
+                    <div class="error" id="expectativaProdutoError">Por favor, descreva sua expectativa.</div>
+                </div>
+                <div class="form-group">
+                    <label for="faltaNaLoja">Sente falta de algo na loja?</label>
+                    <textarea id="faltaNaLoja" name="faltaNaLoja" required></textarea>
+                    <div class="error" id="faltaNaLojaError">Por favor, descreva o que falta.</div>
+                </div>
+                <div class="form-group">
+                    <label for="prioridade">Prioridade: preço, qualidade ou atendimento?</label>
+                    <select id="prioridade" name="prioridade" required>
+                        <option value="">Selecione</option>
+                        <option value="preco">Preço</option>
+                        <option value="qualidade">Qualidade</option>
+                        <option value="atendimento">Atendimento</option>
+                    </select>
+                    <div class="error" id="prioridadeError">Por favor, selecione uma opção.</div>
+                </div>
+                <div class="form-group">
+                    <label for="tipoProduto">Tipo de produto procurado</label>
+                    <input type="text" id="tipoProduto" name="tipoProduto" required>
+                    <div class="error" id="tipoProdutoError">Por favor, insira o tipo de produto.</div>
+                </div>
+                <div class="form-group">
+                    <label for="canalComunicacao">Canal de comunicação preferido</label>
+                    <select id="canalComunicacao" name="canalComunicacao" required>
+                        <option value="">Selecione</option>
+                        <option value="email">E-mail</option>
+                        <option value="whatsapp">WhatsApp</option>
+                        <option value="telefone">Telefone</option>
+                        <option value="redes_sociais">Redes Sociais</option>
+                    </select>
+                    <div class="error" id="canalComunicacaoError">Por favor, selecione uma opção.</div>
+                </div>
+                <div class="form-group">
+                    <label for="frequenciaPromocoes">Frequência de receber promoções</label>
+                    <select id="frequenciaPromocoes" name="frequenciaPromocoes" required>
+                        <option value="">Selecione</option>
+                        <option value="diaria">Diária</option>
+                        <option value="semanal">Semanal</option>
+                        <option value="mensal">Mensal</option>
+                        <option value="nunca">Nunca</option>
+                    </select>
+                    <div class="error" id="frequenciaPromocoesError">Por favor, selecione uma opção.</div>
+                </div>
+                <div class="form-group">
+                    <label for="programaFidelidade">Participa do programa de fidelidade?</label>
+                    <select id="programaFidelidade" name="programaFidelidade" required>
+                        <option value="">Selecione</option>
+                        <option value="sim">Sim</option>
+                        <option value="nao">Não</option>
+                    </select>
+                    <div class="error" id="programaFidelidadeError">Por favor, selecione uma opção.</div>
+                </div>
+                <div class="form-group">
+                    <label for="pesquisasSatisfacao">Interessa-se por pesquisas de satisfação?</label>
+                    <select id="pesquisasSatisfacao" name="pesquisasSatisfacao" required>
+                        <option value="">Selecione</option>
+                        <option value="sim">Sim</option>
+                        <option value="nao">Não</option>
+                    </select>
+                    <div class="error" id="pesquisasSatisfacaoError">Por favor, selecione uma opção.</div>
+                </div>
+                <button type="submit">Enviar Feedback</button>
+            </form>
+            <div class="feedback-result" id="feedbackResult"></div>
+        </section>
+
+        <div class="back-button">
+            <a href="index.html"><button>Voltar à Loja</button></a>
+        </div>
+    </div>
+
+    <script>
+        // Função para enviar feedback
+        function handleFeedbackSubmit(event) {
+            event.preventDefault();
+            let isValid = true;
+
+            // Resetar mensagens de erro
+            document.querySelectorAll('.error').forEach(error => error.style.display = 'none');
+
+            // Validação do e-mail
+            const email = document.getElementById('email').value;
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                document.getElementById('emailError').style.display = 'block';
+                isValid = false;
+            }
+
+            // Validação do motivo da busca
+            const motivoBusca = document.getElementById('motivoBusca').value;
+            if (!motivoBusca) {
+                document.getElementById('motivoBuscaError').style.display = 'block';
+                isValid = false;
+            }
+
+            // Validação de produto anterior
+            const produtoAnterior = document.getElementById('produtoAnterior').value;
+            if (!produtoAnterior) {
+                document.getElementById('produtoAnteriorError').style.display = 'block';
+                isValid = false;
+            }
+
+            // Validação de frequência de compra
+            const frequenciaCompra = document.getElementById('frequenciaCompra').value;
+            if (!frequenciaCompra) {
+                document.getElementById('frequenciaCompraError').style.display = 'block';
+                isValid = false;
+            }
+
+            // Validação do ticket médio
+            const ticketMedio = parseFloat(document.getElementById('ticketMedio').value);
+            if (isNaN(ticketMedio) || ticketMedio <= 0) {
+                document.getElementById('ticketMedioError').style.display = 'block';
+                isValid = false;
+            }
+
+            // Validação de preferência de pagamento
+            const preferenciaPagamento = document.getElementById('preferenciaPagamento').value;
+            if (!preferenciaPagamento) {
+                document.getElementById('preferenciaPagamentoError').style.display = 'block';
+                isValid = false;
+            }
+
+            // Validação de experiência de compra
+            const experienciaCompra = document.getElementById('experienciaCompra').value;
+            if (!experienciaCompra) {
+                document.getElementById('experienciaCompraError').style.display = 'block';
+                isValid = false;
+            }
+
+            // Validação de ponto positivo
+            const pontoPositivo = document.getElementById('pontoPositivo').value;
+            if (!pontoPositivo) {
+                document.getElementById('pontoPositivoError').style.display = 'block';
+                isValid = false;
+            }
+
+            // Validação de problema na compra
+            const problemaCompra = document.getElementById('problemaCompra').value;
+            if (!problemaCompra) {
+                document.getElementById('problemaCompraError').style.display = 'block';
+                isValid = false;
+            }
+
+            // Validação de indicação da empresa
+            const indicariaEmpresa = document.getElementById('indicariaEmpresa').value;
+            if (!indicariaEmpresa) {
+                document.getElementById('indicariaEmpresaError').style.display = 'block';
+                isValid = false;
+            }
+
+            // Validação de expectativa do produto
+            const expectativaProduto = document.getElementById('expectativaProduto').value;
+            if (!expectativaProduto) {
+                document.getElementById('expectativaProdutoError').style.display = 'block';
+                isValid = false;
+            }
+
+            // Validação de falta na loja
+            const faltaNaLoja = document.getElementById('faltaNaLoja').value;
+            if (!faltaNaLoja) {
+                document.getElementById('faltaNaLojaError').style.display = 'block';
+                isValid = false;
+            }
+
+            // Validação de prioridade
+            const prioridade = document.getElementById('prioridade').value;
+            if (!prioridade) {
+                document.getElementById('prioridadeError').style.display = 'block';
+                isValid = false;
+            }
+
+            // Validação de tipo de produto
+            const tipoProduto = document.getElementById('tipoProduto').value;
+            if (!tipoProduto) {
+                document.getElementById('tipoProdutoError').style.display = 'block';
+                isValid = false;
+            }
+
+            // Validação de canal de comunicação
+            const canalComunicacao = document.getElementById('canalComunicacao').value;
+            if (!canalComunicacao) {
+                document.getElementById('canalComunicacaoError').style.display = 'block';
+                isValid = false;
+            }
+
+            // Validação de frequência de promoções
+            const frequenciaPromocoes = document.getElementById('frequenciaPromocoes').value;
+            if (!frequenciaPromocoes) {
+                document.getElementById('frequenciaPromocoesError').style.display = 'block';
+                isValid = false;
+            }
+
+            // Validação de programa de fidelidade
+            const programaFidelidade = document.getElementById('programaFidelidade').value;
+            if (!programaFidelidade) {
+                document.getElementById('programaFidelidadeError').style.display = 'block';
+                isValid = false;
+            }
+
+            // Validação de pesquisas de satisfação
+            const pesquisasSatisfacao = document.getElementById('pesquisasSatisfacao').value;
+            if (!pesquisasSatisfacao) {
+                document.getElementById('pesquisasSatisfacaoError').style.display = 'block';
+                isValid = false;
+            }
+
+            if (isValid) {
+                const feedbackData = {
+                    email,
+                    motivoBusca,
+                    produtoAnterior,
+                    frequenciaCompra,
+                    ticketMedio,
+                    preferenciaPagamento,
+                    experienciaCompra,
+                    pontoPositivo,
+                    problemaCompra,
+                    indicariaEmpresa,
+                    expectativaProduto,
+                    faltaNaLoja,
+                    prioridade,
+                    tipoProduto,
+                    canalComunicacao,
+                    frequenciaPromocoes,
+                    programaFidelidade,
+                    pesquisasSatisfacao
+                };
+
+                // Salvar feedback no localStorage
+                let feedbacks = JSON.parse(localStorage.getItem('feedbacks')) || [];
+                feedbacks.push(feedbackData);
+                localStorage.setItem('feedbacks', JSON.stringify(feedbacks));
+
+                console.log('Feedback do cliente:', feedbackData);
+                const feedbackResult = document.getElementById('feedbackResult');
+                feedbackResult.textContent = 'Feedback enviado com sucesso! Obrigado por sua colaboração.';
+                feedbackResult.style.display = 'block';
+                document.getElementById('feedbackForm').reset();
+                setTimeout(() => {
+                    feedbackResult.style.display = 'none';
+                }, 3000);
+            }
+        }
+    </script>
+</body>
+</html>

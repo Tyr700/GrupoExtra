@@ -1,215 +1,267 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <script src="js/cadastro.js"></script>
+    <link rel="js" href="cadastro.js">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro - Lily Shoes</title>
+    <title>Lily Shoes - Cadastro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Playfair Display', Georgia, serif;
         }
 
         body {
-            background-color: #f5f0e6; /* Bege claro */
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            background: linear-gradient(135deg, #FFF5F7 0%, #FFE4E1 100%);
+            position: relative;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
         .container {
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 500px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            padding-bottom: 60px;
         }
 
         .header {
             text-align: center;
-            margin-bottom: 20px;
+            padding: 30px 0;
+            position: relative;
+            background: url('https://via.placeholder.com/1200x200?text=Textura+Sapatos') center/cover no-repeat;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
         }
 
         .header h1 {
-            color: #f8c9d2; /* Rosa claro */
-            font-size: 28px;
+            color: #FF69B4;
+            font-size: 40px;
             font-weight: 700;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
         }
 
         .header p {
-            color: #6b5e4a; /* Bege escuro */
-            font-size: 14px;
+            color: #333333;
+            font-size: 18px;
+            font-weight: 400;
+            font-style: italic;
         }
 
-        .form-group {
+        .cadastro-section {
+            background-color: #FFF8F8;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            margin: 30px 0;
+        }
+
+        .cadastro-section h2 {
+            color: #FF69B4;
+            font-size: 28px;
             margin-bottom: 20px;
+            text-align: center;
+            font-weight: 700;
         }
 
-        .form-group label {
-            display: block;
-            color: #6b5e4a;
-            font-size: 14px;
-            margin-bottom: 5px;
+        .cadastro-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 400px;
+            margin: 0 auto;
         }
 
-        .form-group input {
-            width: 100%;
+        .cadastro-form label {
+            color: #333333;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .cadastro-form input {
             padding: 10px;
-            border: 1px solid #f8c9d2;
+            border: 1px solid #FF69B4;
             border-radius: 8px;
-            font-size: 14px;
-            background-color: #f9f5f0;
-            color: #6b5e4a;
+            font-size: 16px;
+            color: #333333;
+            background-color: #FFFFFF;
+            transition: border-color 0.3s;
         }
 
-        .form-group input:focus {
+        .cadastro-form input:focus {
+            border-color: #FF1493;
             outline: none;
-            border-color: #f8a8b9;
         }
 
-        button {
-            width: 100%;
+        .cadastro-form button {
             padding: 12px;
-            background-color: #f8c9d2;
+            background-color: #FF69B4;
             border: none;
             border-radius: 8px;
-            color: #fff;
-            font-size: 16px;
+            color: #FFFFFF;
+            font-size: 18px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s, transform 0.2s;
+            font-weight: 700;
+            letter-spacing: 0.5px;
         }
 
-        button:hover {
-            background-color: #f8a8b9;
+        .cadastro-form button:hover {
+            background-color: #FF1493;
+            transform: scale(1.05);
         }
 
-        .error {
-            color: #d9534f;
-            font-size: 12px;
-            margin-top: 5px;
+        .user-info {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            color: #333333;
+            font-size: 16px;
+            font-weight: 400;
+            background-color: #FFFFFF;
+            padding: 10px 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             display: none;
         }
 
-        @media (max-width: 480px) {
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeOut 0.5s forwards;
+            animation-delay: 1s;
+        }
+
+        .loading-spinner {
+            border: 8px solid #F9F9F9;
+            border-top: 8px solid #FF69B4;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeOut {
+            to { opacity: 0; visibility: hidden; }
+        }
+
+        @media (max-width: 768px) {
             .container {
-                padding: 20px;
-                margin: 10px;
+                padding: 10px;
+                padding-bottom: 60px;
             }
 
             .header h1 {
-                font-size: 24px;
+                font-size: 32px;
+            }
+
+            .cadastro-section {
+                padding: 20px;
+            }
+
+            .cadastro-form {
+                max-width: 100%;
+            }
+
+            .user-info {
+                bottom: 10px;
+                left: 10px;
             }
         }
     </style>
 </head>
 <body>
+    <div class="loading-screen">
+        <div class="loading-spinner"></div>
+    </div>
     <div class="container">
         <div class="header">
             <h1>Lily Shoes</h1>
-            <p>Crie sua conta para uma experiência personalizada</p>
+            <p>Crie sua conta e descubra produtos incríveis!</p>
         </div>
-        <form id="registerForm" onsubmit="handleSubmit(event)">
-            <div class="form-group">
-                <label for="nome">Nome completo</label>
-                <input type="text" id="nome" name="nome" required>
-                <div class="error" id="nomeError">Por favor, insira um nome válido.</div>
-            </div>
-            <div class="form-group">
-                <label for="email">E-mail</label>
-                <input type="email" id="email" name="email" required>
-                <div class="error" id="emailError">Por favor, insira um e-mail válido.</div>
-            </div>
-            <div class="form-group">
-                <label for="senha">Senha</label>
-                <input type="password" id="senha" name="senha" required>
-                <div class="error" id="senhaError">A senha deve ter pelo menos 6 caracteres.</div>
-            </div>
-            <div class="form-group">
-                <label for="telefone">Telefone</label>
-                <input type="tel" id="telefone" name="telefone" required placeholder="(99) 99999-9999">
-                <div class="error" id="telefoneError">Por favor, insira um telefone válido. Ex: (99) 99999-9999</div>
-            </div>
-            <div class="form-group">
-                <label for="endereco">Endereço</label>
-                <input type="text" id="endereco" name="endereco" required>
-                <div class="error" id="enderecoError">Por favor, insira um endereço válido.</div>
-            </div>
 
-            <!-- Botão corrigido -->
-            <button type="submit">Cadastrar</button>
-        </form>
+        <section class="cadastro-section">
+            <h2>Cadastre-se</h2>
+            <div class="cadastro-form">
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" placeholder="Digite seu nome" required>
+                <label for="email">E-mail:</label>
+                <input type="email" id="email" placeholder="Digite seu e-mail" required>
+                <label for="senha">Senha:</label>
+                <input type="password" id="senha" placeholder="Digite sua senha" required>
+                <button onclick="cadastrar()">Cadastrar</button>
+            </div>
+        </section>
     </div>
 
+    <div class="user-info" id="userInfo"></div>
+
     <script>
-        function handleSubmit(event) {
-            event.preventDefault();
-            let isValid = true;
+        // Ocultar a tela de carregamento após 1 segundo
+        setTimeout(() => {
+            document.querySelector('.loading-screen').style.display = 'none';
+        }, 1000);
 
-            // Resetar mensagens de erro
-            document.querySelectorAll('.error').forEach(error => error.style.display = 'none');
-
-            // Validação do nome
-            const nome = document.getElementById('nome').value.trim();
-            if (nome.length < 2) {
-                document.getElementById('nomeError').style.display = 'block';
-                isValid = false;
-            }
-
-            // Validação do e-mail
-            const email = document.getElementById('email').value.trim();
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                document.getElementById('emailError').style.display = 'block';
-                isValid = false;
-            }
-
-            // Validação da senha
+        // Função para cadastrar usuário
+        function cadastrar() {
+            const nome = document.getElementById('nome').value;
+            const email = document.getElementById('email').value;
             const senha = document.getElementById('senha').value;
-            if (senha.length < 6) {
-                document.getElementById('senhaError').style.display = 'block';
-                isValid = false;
+
+            if (!nome || !email || !senha) {
+                alert('Por favor, preencha todos os campos!');
+                return;
             }
 
-            // Validação do telefone
-            const telefone = document.getElementById('telefone').value.trim();
-const telefoneRegex = /^\d{8,15}$/;
-if (!telefoneRegex.test(telefone)) {
-    document.getElementById('telefoneError').style.display = 'block';
-    isValid = false;
+            let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+
+            const usuarioExistente = usuarios.find(user => user.email === email);
+            if (usuarioExistente) {
+                alert('Este e-mail já está cadastrado! Tente outro.');
+                return;
             }
 
-            // Validação do endereço
-            const endereco = document.getElementById('endereco').value.trim();
-            if (endereco.length < 5) {
-                document.getElementById('enderecoError').style.display = 'block';
-                isValid = false;
-            }
+            usuarios.push({ nome, email, senha });
+            localStorage.setItem('usuarios', JSON.stringify(usuarios));
 
-            if (isValid) {
-                const dataCriacao = new Date().toISOString();
-                const userData = {
-                    nome,
-                    email,
-                    senha,
-                    dataCriacao,
-                    telefone,
-                    endereco
-                };
-                console.log('Dados do usuário:', userData);
-                alert('Cadastro realizado com sucesso!');
+            alert('Cadastro realizado com sucesso! Redirecionando para o login...');
+            window.location.href = 'login.html';
+        }
 
-                // Redirecionar para a página inicial
-                window.location.href = "home.html";
+        // Função para exibir o nome do usuário
+        function updateUserInfo() {
+            const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+            const userInfo = document.getElementById('userInfo');
+
+            if (usuarioLogado && usuarioLogado.nome) {
+                userInfo.textContent = `Bem-vindo, ${usuarioLogado.nome}`;
+                userInfo.style.display = 'block';
+            } else {
+                userInfo.style.display = 'none';
             }
         }
-        
 
-        
+        // Atualizar nome do usuário ao carregar a página
+        document.addEventListener('DOMContentLoaded', () => {
+            updateUserInfo();
+        });
     </script>
 </body>
 </html>
