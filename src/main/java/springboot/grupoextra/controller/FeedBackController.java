@@ -36,7 +36,7 @@ public class FeedBackController {
         }
     }
 
-    @PostMapping("/")
+    @PostMapping("/enviarFeedBack")
     public ResponseEntity<String> receberFeedback(@RequestBody FeedBackModel feedback) {
         try {
             emailService.enviarEmailFeedback(feedback.getEmail());

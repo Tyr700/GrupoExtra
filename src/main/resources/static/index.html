@@ -67,11 +67,11 @@
             gap: 20px;
         }
 
-        .cart-button, .track-button, .feedback-button {
+        .cart-button, .track-button, .feedback-button, .admin-button {
             position: relative;
         }
 
-        .cart-button button, .track-button button, .feedback-button button, .logout-button button {
+        .cart-button button, .track-button button, .feedback-button button, .admin-button button, .logout-button button {
             padding: 10px 20px;
             background-color: #FF69B4;
             border: none;
@@ -89,7 +89,7 @@
             padding-right: 40px;
         }
 
-        .cart-button button:hover, .track-button button:hover, .feedback-button button:hover, .logout-button button:hover {
+        .cart-button button:hover, .track-button button:hover, .feedback-button button:hover, .admin-button button:hover, .logout-button button:hover {
             background-color: #FF1493;
             transform: scale(1.05);
         }
@@ -141,6 +141,14 @@
             transform: scale(1.05);
         }
 
+        .shipping-info {
+            text-align: center;
+            margin-top: 20px;
+            color: #FF69B4;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
         .banner {
             background: url('https://via.placeholder.com/1200x150?text=Promoção') center/cover no-repeat;
             padding: 30px;
@@ -161,6 +169,19 @@
             color: #333333;
             font-size: 16px;
             font-style: italic;
+        }
+
+        .holiday-message {
+            text-align: center;
+            padding: 15px;
+            background-color: #FFF8F8;
+            color: #FF69B4;
+            font-size: 20px;
+            font-weight: 700;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            margin: 20px 0;
+            display: none;
         }
 
         .dashboard {
@@ -210,6 +231,11 @@
             text-align: center;
             padding: 15px;
             transition: transform 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            height: 100%;
         }
 
         .product-card:hover {
@@ -228,12 +254,14 @@
             font-size: 20px;
             margin: 10px 0;
             font-weight: 700;
+            flex-grow: 1;
         }
 
         .product-card p {
             color: #FF69B4;
             font-size: 18px;
             font-weight: 700;
+            margin: 10px 0;
         }
 
         .product-card button {
@@ -456,7 +484,13 @@
                         <button>Deixe seu Feedback</button>
                     </a>
                 </div>
+                <div class="admin-button" id="adminButton" style="display: none;">
+                    <a href="admin.html">
+                        <button>Área Admin</button>
+                    </a>
+                </div>
             </div>
+            <div class="shipping-info" id="shippingInfo"></div>
             <div class="header-right-buttons">
                 <div class="cadastro-button" id="cadastroButton">
                     <a href="cadastro.html">
@@ -473,6 +507,8 @@
                 </div>
             </div>
         </div>
+
+        <div class="holiday-message" id="holidayMessage"></div>
 
         <div class="banner">
             <h2>Promoção Especial!</h2>
@@ -496,64 +532,88 @@
 
         <section class="products">
             <div class="product-card">
-                <img src="https://via.placeholder.com/200?text=Sapato+Rosa" alt="Sapato 1">
-                <h3>Sapato Elegante Rosa</h3>
-                <p>R$ 199,90</p>
-                <button onclick="buyProduct('Sapato Elegante Rosa')">Comprar</button>
+                <img src="./imagens/croque 3.jpg">
+                <h3>Acessório de Crocs hello kitty</h3>
+                <p>R$ 49,99</p>
+                <button onclick="buyProduct('Acessório de Crocs hello kitty')">Comprar</button>
             </div>
             <div class="product-card">
-                <img src="https://via.placeholder.com/200?text=Tênis+Bege" alt="Sapato 2">
-                <h3>Tênis Casual Bege</h3>
-                <p>R$ 149,90</p>
-                <button onclick="buyProduct('Tênis Casual Bege')">Comprar</button>
+                <img src="./imagens/croque 2.jpg">
+                <h3>Crocs com Acessórios Hello Kitty Jibbitz Charms</h3>
+                <p>R$ 149,99</p>
+                <button onclick="buyProduct('Crocs com Acessórios Hello Kitty Jibbitz Charms')">Comprar</button>
             </div>
             <div class="product-card">
-                <img src="https://via.placeholder.com/200?text=Sandália" alt="Sapato 3">
-                <h3>Sandália Confort</h3>
-                <p>R$ 129,90</p>
-                <button onclick="buyProduct('Sandália Confort')">Comprar</button>
+                <img src="./imagens/salto.jpg">
+                <h3>Scarpin Vermelho Salto</h3>
+                <p>R$ 299,90</p>
+                <button onclick="buyProduct('Scarpin Vermelho Salto')">Comprar</button>
             </div>
             <div class="product-card">
-                <img src="https://via.placeholder.com/200?text=Bota" alt="Sapato 4">
-                <h3>Bota Chic</h3>
-                <p>R$ 249,90</p>
-                <button onclick="buyProduct('Bota Chic')">Comprar</button>
+                <img src="./imagens/new.jpg">
+                <h3>Tênis New Balance 725 Branco</h3>
+                <p>R$ 120,00</p>
+                <button onclick="buyProduct('Tênis New Balance 725 Branco')">Comprar</button>
             </div>
             <div class="product-card">
-                <img src="https://via.placeholder.com/200?text=Sapatilha" alt="Sapato 5">
-                <h3>Sapatilha Clássica</h3>
-                <p>R$ 99,90</p>
-                <button onclick="buyProduct('Sapatilha Clássica')">Comprar</button>
+                <img src="./imagens/chinelo beige.jpg">
+                <h3>Sandálias Brancas Femininas</h3>
+                <p>R$ 149,99</p>
+                <button onclick="buyProduct('Sandálias Brancas Femininas')">Comprar</button>
             </div>
             <div class="product-card">
-                <img src="https://via.placeholder.com/200?text=Scarpin" alt="Sapato 6">
-                <h3>Scarpin Preto</h3>
-                <p>R$ 189,90</p>
-                <button onclick="buyProduct('Scarpin Preto')">Comprar</button>
+                <img src="./imagens/tenis nike.jpg">
+                <h3>Jordan Mid Cinza Nike</h3>
+                <p>R$ 137,99</p>
+                <button onclick="buyProduct('Jordan Mid Cinza Nike')">Comprar</button>
             </div>
             <div class="product-card">
-                <img src="https://via.placeholder.com/200?text=Tênis+Esportivo" alt="Sapato 7">
-                <h3>Tênis Esportivo</h3>
-                <p>R$ 179,90</p>
-                <button onclick="buyProduct('Tênis Esportivo')">Comprar</button>
+                <img src="./imagens/tenis adiddas 2.jpg">
+                <h3>Tênis Campus 00S Adidas</h3>
+                <p>R$ 599,99</p>
+                <button onclick="buyProduct('Tênis Campus 00S Adidas')">Comprar</button>
             </div>
             <div class="product-card">
-                <img src="https://via.placeholder.com/200?text=Sandália+Glitter" alt="Sapato 8">
-                <h3>Sandália Glitter</h3>
-                <p>R$ 139,90</p>
-                <button onclick="buyProduct('Sandália Glitter')">Comprar</button>
+                <img src="./imagens/tenis adidas.jpg">
+                <h3>Forum Low Azul Adidas</h3>
+                <p>R$ 399,99</p>
+                <button onclick="buyProduct('Forum Low Azul Adidas')">Comprar</button>
             </div>
             <div class="product-card">
-                <img src="https://via.placeholder.com/200?text=Bota+Alta" alt="Sapato 9">
-                <h3>Bota Cano Alto</h3>
-                <p>R$ 229,90</p>
-                <button onclick="buyProduct('Bota Cano Alto')">Comprar</button>
+                <img src="./imagens/Meias.jpg">
+                <h3>Meias Preta e Branca Adidas</h3>
+                <p>R$ 29,99</p>
+                <button onclick="buyProduct('Meias Preta e Branca Adidas')">Comprar</button>
             </div>
             <div class="product-card">
-                <img src="https://via.placeholder.com/200?text=Mocassim" alt="Sapato 10">
-                <h3>Mocassim Clássico</h3>
-                <p>R$ 109,90</p>
-                <button onclick="buyProduct('Mocassim Clássico')">Comprar</button>
+                <img src="./imagens/croque .jpg">
+                <h3>Crocs Clogs Branco Clássico</h3>
+                <p>R$ 249,99</p>
+                <button onclick="buyProduct('Crocs Clogs Branco Clássico')">Comprar</button>
+            </div>
+            <div class="product-card">
+                <img src="./imagens/sandalia 1.jpg">
+                <h3>Sandália com palmilha decoração de fivela bege</h3>
+                <p>R$ 89,99</p>
+                <button onclick="buyProduct('Sandália com palmilha decoração de fivela bege')">Comprar</button>
+            </div>
+            <div class="product-card">
+                <img src="./imagens/Sandalia 2.jpg">
+                <h3>Sandália Zaxy Birken Feminino Fivela Conforto</h3>
+                <p>R$ 79,99</p>
+                <button onclick="buyProduct('Sandália Zaxy Birken Feminino Fivela Conforto')">Comprar</button>
+            </div>
+            <div class="product-card">
+                <img src="./imagens/puma11.jpg">
+                <h3>Tênis Knu Skool Black True White</h3>
+                <p>R$ 250,00</p>
+                <button onclick="buyProduct('Tênis Knu Skool Black True White')">Comprar</button>
+            </div>
+            <div class="product-card">
+                <img src="./imagens/tenis branco.jpg">
+                <h3>Tênis Feminino Branco Via Marte Casual</h3>
+                <p>R$ 168,00</p>
+                <button onclick="buyProduct('Tênis Feminino Branco Via Marte Casual')">Comprar</button>
             </div>
         </section>
 
@@ -610,6 +670,7 @@
             const cart = JSON.parse(localStorage.getItem('cart')) || [];
             const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
             document.getElementById('cartCount').textContent = totalItems;
+            updateShippingInfo();
         }
 
         // Função para adicionar produto ao carrinho
@@ -622,16 +683,20 @@
             }
 
             const products = {
-                'Sapato Elegante Rosa': 199.90,
-                'Tênis Casual Bege': 149.90,
-                'Sandália Confort': 129.90,
-                'Bota Chic': 249.90,
-                'Sapatilha Clássica': 99.90,
-                'Scarpin Preto': 189.90,
-                'Tênis Esportivo': 179.90,
-                'Sandália Glitter': 139.90,
-                'Bota Cano Alto': 229.90,
-                'Mocassim Clássico': 109.90
+                'Acessório de Crocs hello kitty': 49.99,
+                'Crocs com Acessórios Hello Kitty Jibbitz Charms': 149.99,
+                'Scarpin Vermelho Salto': 299.90,
+                'Tênis New Balance 725 Branco': 120.00,
+                'Sandálias Brancas Femininas': 149.99,
+                'Jordan Mid Cinza Nike': 137.99,
+                'Tênis Campus 00S Adidas': 599.99,
+                'Forum Low Azul Adidas': 399.99,
+                'Meias Preta e Branca Adidas': 29.99,
+                'Crocs Clogs Branco Clássico': 249.99,
+                'Sandália com palmilha decoração de fivela bege': 89.99,
+                'Sandália Zaxy Birken Feminino Fivela Conforto': 79.99,
+                'Tênis Knu Skool Black True White': 250.00,
+                'Tênis Feminino Branco Via Marte Casual': 168.00
             };
 
             const price = products[productName];
@@ -654,18 +719,77 @@
             alert(`Produto "${productName}" adicionado ao carrinho!`);
         }
 
+        // Função para calcular o valor total do carrinho
+        function calculateCartTotal() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            return cart.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2);
+        }
+
+        // Função para atualizar a informação de frete
+        function updateShippingInfo() {
+            const total = parseFloat(calculateCartTotal());
+            const shippingInfo = document.getElementById('shippingInfo');
+            const freeShippingThreshold = 199.00;
+            const fixedShippingCost = 9.90;
+
+            if (total >= freeShippingThreshold) {
+                shippingInfo.textContent = 'Parabéns! Você ganhou Frete Grátis!';
+            } else {
+                shippingInfo.textContent = `Frete: R$ ${fixedShippingCost.toFixed(2)} (Frete grátis acima de R$ ${freeShippingThreshold.toFixed(2)})`;
+            }
+        }
+
+        // Função para exibir mensagens automáticas de datas comemorativas e aniversário
+        function showHolidayMessage() {
+            const holidayMessage = document.getElementById('holidayMessage');
+            const now = new Date();
+            const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+
+            if (usuarioLogado && usuarioLogado.aniversario) {
+                const [aniversarioDay, aniversarioMonth] = usuarioLogado.aniversario.split('/').map(Number);
+                const aniversarioDate = new Date(now.getFullYear(), aniversarioMonth - 1, aniversarioDay);
+                if (now.toDateString() === aniversarioDate.toDateString()) {
+                    holidayMessage.textContent = `🎉 Hoje é o seu dia e queremos comemorar com você! Parabéns pelo seu aniversário — desejamos um novo ciclo cheio de alegrias, conquistas e bons momentos. Para deixar essa data ainda mais especial, preparamos um presente: 15% de desconto na sua próxima compra! [Código: FELIZ15] – Válido por 7 dias.`;
+                    holidayMessage.style.display = 'block';
+                    return;
+                }
+            }
+
+            const holidays = [
+                { date: new Date(now.getFullYear(), 11, 25), message: '🎄 Feliz Natal! Que a magia desta época ilumine sua vida com alegria e realizações. Aproveite nosso presente especial: 10% de desconto em todas as compras até o dia 25/12! [Código: NATAL10]' },
+                { date: new Date(now.getFullYear(), 0, 2), message: '🎉 Feliz Ano Novo! Que 2025 venha cheio de conquistas. Para começar com o pé direito, aproveite frete grátis + 15% off em nosso site até 02/01. [Código: ANONOVO15]' },
+                { date: new Date(now.getFullYear(), 1, 28), message: '🎭 A folia chegou! Entre no ritmo com até 20% de desconto em produtos selecionados. Promoção válida até o fim do Carnaval! [Código: CARNAVAL20]' },
+                { date: new Date(now.getFullYear(), 4, 11), message: '🌸 Neste Dia das Mães, celebre com amor e carinho. Ganhe 12% de desconto em toda a loja para presentear quem sempre esteve ao seu lado. [Código: MAES12]' },
+                { date: new Date(now.getFullYear(), 10, 28), message: '🛒 A maior promoção do ano chegou! Descontos de até 50% OFF em nossos produtos por tempo limitado. Aproveite agora!' },
+                { date: new Date(now.getFullYear(), 3, 20), message: '🐣 Feliz Páscoa! Que a renovação esteja presente na sua vida e no seu carrinho: ganhe 10% de desconto em toda a loja! [Código: PASCOA10]' },
+                { date: new Date(now.getFullYear(), 8, 15), message: '🎁 Hoje é o seu dia! Em agradecimento, estamos com 15% OFF em todos os produtos. Válido somente hoje! [Código: CLIENTE15]' }
+            ];
+
+            for (let holiday of holidays) {
+                if (now.toDateString() === holiday.date.toDateString()) {
+                    holidayMessage.textContent = holiday.message;
+                    holidayMessage.style.display = 'block';
+                    return;
+                }
+            }
+
+            if (now.getMonth() === 4 && now.getDate() >= 1 && now.getDate() <= 31) {
+                holidayMessage.textContent = '🌸 Aproveite o clima do Dia das Mães! 12% off em toda a loja com o código MAES12!';
+                holidayMessage.style.display = 'block';
+                return;
+            }
+
+            holidayMessage.style.display = 'none';
+        }
+
         // Função para atualizar as métricas do dashboard
         function updateDashboard() {
             const orders = JSON.parse(localStorage.getItem('orders')) || [];
             const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
 
-            // Total de pedidos
             document.getElementById('totalOrders').textContent = orders.length;
-
-            // Total de clientes
             document.getElementById('totalClients').textContent = usuarios.length;
 
-            // Ticket médio
             const totalRevenue = orders.reduce((sum, order) => sum + (order.total || 0), 0);
             const averageTicket = orders.length > 0 ? totalRevenue / orders.length : 0;
             document.getElementById('averageTicket').textContent = `R$ ${averageTicket.toFixed(2)}`;
@@ -782,6 +906,7 @@
             const cadastroButton = document.getElementById('cadastroButton');
             const loginButton = document.getElementById('loginButton');
             const logoutButton = document.getElementById('logoutButton');
+            const adminButton = document.getElementById('adminButton');
 
             if (usuarioLogado && usuarioLogado.nome) {
                 userInfo.textContent = `Bem-vindo, ${usuarioLogado.nome}`;
@@ -791,12 +916,19 @@
                 cadastroButton.style.display = 'none';
                 loginButton.style.display = 'none';
                 logoutButton.style.display = 'block';
+
+                if (usuarioLogado.isAdmin) {
+                    adminButton.style.display = 'block';
+                } else {
+                    adminButton.style.display = 'none';
+                }
             } else {
                 userInfo.style.display = 'none';
                 welcomeMessage.style.display = 'none';
                 cadastroButton.style.display = 'block';
                 loginButton.style.display = 'block';
                 logoutButton.style.display = 'none';
+                adminButton.style.display = 'none';
             }
         }
 
@@ -810,11 +942,12 @@
             }
         }
 
-        // Atualizar contador do carrinho, dashboard e nome do usuário ao carregar a página
+        // Atualizar contador do carrinho, dashboard, nome do usuário, informação de frete e mensagem de feriado ao carregar a página
         document.addEventListener('DOMContentLoaded', () => {
             updateCartCount();
             updateUserInfo();
             updateDashboard();
+            showHolidayMessage();
         });
     </script>
 </body>

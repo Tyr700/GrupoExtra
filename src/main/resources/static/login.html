@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <link rel="js" href="js/login.js">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Lily Shoes</title>
@@ -180,6 +179,7 @@
 
             // Validação do e-mail
             const email = document.getElementById('email').value;
+            const senha = document.getElementById('senha').value;
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(email)) {
                 document.getElementById('emailError').style.display = 'block';
@@ -187,15 +187,34 @@
             }
 
             if (isValid) {
-                const senha = document.getElementById('senha').value;
-                const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
-
-                const usuario = usuarios.find(u => u.email === email && u.senha === senha);
-                if (usuario) {
-                    alert('Login realizado com sucesso!');
-                    localStorage.setItem('usuarioLogado', JSON.stringify(usuario));
+                // Verificar se é o administrador fixo
+                if (email === 'admin@gmail.com' && senha === 'admin') {
+                    const adminUser = {
+                        nome: 'Administrador',
+                        email: 'admin@gmail.com',
+                        senha: 'admin',
+                        isAdmin: true
+                    };
+                    localStorage.setItem('usuarioLogado', JSON.stringify(adminUser));
+                    alert('Login de administrador realizado com sucesso!');
                     document.getElementById('loginForm').reset();
-                    window.location.href = 'index.html';
+                    window.location.href = 'admin.html';
+                    return;
+                }
+
+                // Verificar usuários normais no localStorage
+                const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+                const usuario = usuarios.find(u => u.email === email && u.senha === senha);
+
+                if (usuario) {
+                    localStorage.setItem('usuarioLogado', JSON.stringify(usuario));
+                    alert('Login realizado com sucesso!');
+                    document.getElementById('loginForm').reset();
+                    if (usuario.isAdmin) {
+                        window.location.href = 'admin.html';
+                    } else {
+                        window.location.href = 'index.html';
+                    }
                 } else {
                     document.getElementById('senhaError').style.display = 'block';
                     isValid = false;

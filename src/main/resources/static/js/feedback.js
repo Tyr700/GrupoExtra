@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const feedback = document.getElementById('feedback').value;
             
             try {
-                const response = await fetch('/feedback/feedback', {
+                const response = await fetch('/feedback/enviarFeedBack', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

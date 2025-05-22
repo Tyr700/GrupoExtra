@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <link rel="js" href="js/order.js">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lily Shoes - Carrinho</title>
@@ -132,6 +131,18 @@
             border-radius: 15px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
             margin-bottom: 30px;
+        }
+
+        .shipping-info {
+            text-align: right;
+            padding: 10px 20px;
+            font-size: 18px;
+            color: #333333;
+            font-weight: 400;
+            background-color: #FFF8F8;
+            border-radius: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            margin-bottom: 10px;
         }
 
         .checkout-section {
@@ -307,6 +318,7 @@
             Você precisa estar logado para fazer compras!
         </div>
 
+        <div class="shipping-info" id="shippingInfo"></div>
         <div class="cart-total" id="cartTotal">
             Total: R$ 0,00
         </div>
@@ -362,17 +374,32 @@
             }
         }
 
+        // Função para calcular o valor total do carrinho
+        function calculateCartTotal() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            return cart.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2);
+        }
+
+        // Função para calcular o valor do frete
+        function calculateShippingCost(total) {
+            const freeShippingThreshold = 199.00;
+            const fixedShippingCost = 9.90;
+            return total >= freeShippingThreshold ? 0.00 : fixedShippingCost;
+        }
+
         // Função para carregar itens do carrinho
         function loadCart() {
             const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
             const cartItems = document.getElementById('cartItems');
             const cartTotal = document.getElementById('cartTotal');
+            const shippingInfo = document.getElementById('shippingInfo');
             const loginRequired = document.getElementById('loginRequired');
 
             if (!usuarioLogado) {
                 showMessage('loginRequired', 'Você precisa estar logado para fazer compras!', 'message-error');
                 cartItems.innerHTML = '';
                 cartTotal.textContent = 'Total: R$ 0,00';
+                shippingInfo.textContent = '';
                 setTimeout(() => {
                     window.location.href = 'login.html';
                 }, 3000);
@@ -385,6 +412,7 @@
             if (cart.length === 0) {
                 cartItems.innerHTML = '<p style="color: #333333; text-align: center;">Seu carrinho está vazio.</p>';
                 cartTotal.textContent = 'Total: R$ 0,00';
+                shippingInfo.textContent = '';
                 return;
             }
 
@@ -404,7 +432,14 @@
                 cartItems.appendChild(cartItem);
             });
 
-            cartTotal.textContent = `Total: R$ ${total.toFixed(2)}`;
+            const shippingCost = calculateShippingCost(total);
+            const finalTotal = (parseFloat(total) + shippingCost).toFixed(2);
+
+            shippingInfo.textContent = shippingCost === 0
+                ? 'Frete Grátis (acima de R$ 199)!'
+                : `Frete: R$ ${shippingCost.toFixed(2)} (Grátis acima de R$ 199)`;
+            
+            cartTotal.textContent = `Total: R$ ${finalTotal}`;
         }
 
         // Função para atualizar quantidade
@@ -475,6 +510,10 @@
             }
 
             if (isValid) {
+                const total = parseFloat(calculateCartTotal());
+                const shippingCost = calculateShippingCost(total);
+                const finalTotal = total + shippingCost;
+
                 const orderCode = generateOrderCode();
                 const checkoutData = {
                     orderCode,
@@ -483,7 +522,7 @@
                     endereco,
                     pagamento,
                     cart,
-                    total: cart.reduce((sum, item) => sum + item.price * item.quantity, 0),
+                    total: finalTotal,
                     status: 'Processando',
                     orderDate: new Date().toISOString()
                 };
